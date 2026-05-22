@@ -83,7 +83,7 @@
   @media (hover: none) { button { cursor: pointer; } }
 
   /* ============================================
-     GRAIN OVERLAY
+     GRAIN OVERLAY — static PNG (hardware-accelerated)
      ============================================ */
   .grain {
     position: fixed;
@@ -92,7 +92,11 @@
     pointer-events: none;
     opacity: 0.06;
     mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAAAAABWESUoAAAEK0lEQVR42gEgBN/7ADkMjH1yRzQs2BAPL293DWXWcOWOA1HYro5Pbqw0L8IxALewhxbrP8EolrliIxd0lCh3M8KO6LpTvbVriCRXfVPsAMKKcKYcdRChzYkhbKFs/8rqSYdHfobbzLlwRvwuGDhOAFHYIMXD74AFOoiuOZbeUOgBhls2mGVOv1IApfoJObmdAHodeygr+CNAQfNUh9hsZp/Mv+DnPX5zIK0KdXADJB51ACIQqSR5jvhtQ/J88tBhMDHctdjS7xsyH86tN39iYeVHANhdjux/JuIyGQcveVXQ+PZtzR5UwgHHh+iS2PlPYZdvAB0foB0Z9FAdKV8jInjOPX4UKdahhWigeofKQ5nqoSUEAOozJW2HQ7Ijfb2RUOCaBJk1RIc7Nk+LkGuvaIf6gBovANiNFgGqQoZS4toEOSZMEr1L3EEVnboUt2t/NLXQT3lTAFrTDFuq0n+IUTfDE/BxZuuznHRyDGLMqI4jjrPMqQ47AIVbhxM33rCg3zvFYYIW3wBkutwjqaA/mZ7Rp86XQWLXAMJZms8Am5Jr3KTu4uJt8lYrkasveJ5zZUsMF33zJenUAGPE/cx8SwI22XBa7Rl/PulE7aLi2uRR8+aEfo34eozhACeSeIuroylGTXbETm0g1NCp7tQfadfHCsL0A7SYx9ZwAPlwi9/4Dsesz1TvQQ3JDSrbRexdGYXCp2zop6zCjteBACnwCRqzciMUD35mCk56QPI6b+6DvFU6U583DZ/Ay2UmAHw0mj0Vsdu9I64G1/o23bnrTt5aivfu34mlfSyO5nztAMKsDv2mXflstYSuj40FYSt70Pp78/vlCC+Wcc98nLzyALDZqbToipyAdj1ioT1eYm73jZAzY5d0uFuaB0CMFxuVAED7NAaR8PXhrl4agfQ6Ic37JRtNTJsrfzzVc8Lm4pjbAJweMmpshylQelgmUAHR5vCVEHaTkOgkd4dl2TpzTIhIACQeVJ2T4D/vm86L/OApFN2lgA0udQqJFFnw4o5c3/suAPCy0aqkNVKo0v2TzRLoLaGBpTvOAOzTG2C5/+IaaIhDAJPg+D4OelGfB9AvczrsPE7/lYvU9/F86UrEYUUjjdSuAIgBkJj6TOT3sKrB6aRgesR30hai8sPFTf0SQKkz4TPpAAdJ0U8m8IetyymowqL5EiN4k3Qu3jIz41WZDhemHJa3AL/cSn3SXFdZKMN7/kl27ILrggTuk1Al4rCZ2YDpmmXEAPc2ecO3l5cLyowEGf6SdbRwYYBGMRSe4RG6Qy6Xp9RZAGZDu4tUg/aXrTrvJkhzy7suygeHP+i8hsO+N3fxDKdxACDtmtE7RxcTm/w7MXhFxui91k/UMvrQjxC9b+PjeLkyALy3H8uNYT7oLmwKGap8QGkjam53qEsBjUpCgFk4DUMHLk8ENgkCTjMAAAAASUVORK5CYII=");
+    background-repeat: repeat;
+    background-size: 96px 96px;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   /* ============================================
@@ -498,7 +502,7 @@
     pointer-events: none;
   }
 
-  /* Film grain — subtle */
+  /* Film grain — subtle (uses same PNG as global grain) */
   .hero-grain {
     position: absolute;
     inset: 0;
@@ -506,7 +510,8 @@
     pointer-events: none;
     opacity: 0.07;
     mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAAAAABWESUoAAAEK0lEQVR42gEgBN/7ADkMjH1yRzQs2BAPL293DWXWcOWOA1HYro5Pbqw0L8IxALewhxbrP8EolrliIxd0lCh3M8KO6LpTvbVriCRXfVPsAMKKcKYcdRChzYkhbKFs/8rqSYdHfobbzLlwRvwuGDhOAFHYIMXD74AFOoiuOZbeUOgBhls2mGVOv1IApfoJObmdAHodeygr+CNAQfNUh9hsZp/Mv+DnPX5zIK0KdXADJB51ACIQqSR5jvhtQ/J88tBhMDHctdjS7xsyH86tN39iYeVHANhdjux/JuIyGQcveVXQ+PZtzR5UwgHHh+iS2PlPYZdvAB0foB0Z9FAdKV8jInjOPX4UKdahhWigeofKQ5nqoSUEAOozJW2HQ7Ijfb2RUOCaBJk1RIc7Nk+LkGuvaIf6gBovANiNFgGqQoZS4toEOSZMEr1L3EEVnboUt2t/NLXQT3lTAFrTDFuq0n+IUTfDE/BxZuuznHRyDGLMqI4jjrPMqQ47AIVbhxM33rCg3zvFYYIW3wBkutwjqaA/mZ7Rp86XQWLXAMJZms8Am5Jr3KTu4uJt8lYrkasveJ5zZUsMF33zJenUAGPE/cx8SwI22XBa7Rl/PulE7aLi2uRR8+aEfo34eozhACeSeIuroylGTXbETm0g1NCp7tQfadfHCsL0A7SYx9ZwAPlwi9/4Dsesz1TvQQ3JDSrbRexdGYXCp2zop6zCjteBACnwCRqzciMUD35mCk56QPI6b+6DvFU6U583DZ/Ay2UmAHw0mj0Vsdu9I64G1/o23bnrTt5aivfu34mlfSyO5nztAMKsDv2mXflstYSuj40FYSt70Pp78/vlCC+Wcc98nLzyALDZqbToipyAdj1ioT1eYm73jZAzY5d0uFuaB0CMFxuVAED7NAaR8PXhrl4agfQ6Ic37JRtNTJsrfzzVc8Lm4pjbAJweMmpshylQelgmUAHR5vCVEHaTkOgkd4dl2TpzTIhIACQeVJ2T4D/vm86L/OApFN2lgA0udQqJFFnw4o5c3/suAPCy0aqkNVKo0v2TzRLoLaGBpTvOAOzTG2C5/+IaaIhDAJPg+D4OelGfB9AvczrsPE7/lYvU9/F86UrEYUUjjdSuAIgBkJj6TOT3sKrB6aRgesR30hai8sPFTf0SQKkz4TPpAAdJ0U8m8IetyymowqL5EiN4k3Qu3jIz41WZDhemHJa3AL/cSn3SXFdZKMN7/kl27ILrggTuk1Al4rCZ2YDpmmXEAPc2ecO3l5cLyowEGf6SdbRwYYBGMRSe4RG6Qy6Xp9RZAGZDu4tUg/aXrTrvJkhzy7suygeHP+i8hsO+N3fxDKdxACDtmtE7RxcTm/w7MXhFxui91k/UMvrQjxC9b+PjeLkyALy3H8uNYT7oLmwKGap8QGkjam53qEsBjUpCgFk4DUMHLk8ENgkCTjMAAAAASUVORK5CYII=");
+    background-size: 96px 96px;
   }
 
   /* ============================================
@@ -842,14 +847,14 @@
     filter: blur(8px);
     will-change: transform, opacity, filter;
   }
-  /* Odd-indexed words come from the LEFT (-120vw start),
-     even-indexed words come from the RIGHT (+120vw start).
-     This is set in JS via inline style based on global word index. */
+  /* Odd-indexed words come from the LEFT, even-indexed from the RIGHT.
+     clamp() prevents words flying from extreme distances on ultrawide monitors
+     and keeps the effect proportional on mobile. */
   .hero-headline .word.from-left {
-    transform: translateX(-60vw);
+    transform: translateX(clamp(-180px, -30vw, -80px));
   }
   .hero-headline .word.from-right {
-    transform: translateX(60vw);
+    transform: translateX(clamp(80px, 30vw, 180px));
   }
   .hero-headline.is-revealed .word {
     /* Slight micro-stagger so it doesn't feel mechanical,
@@ -2233,9 +2238,8 @@
     margin: 0 auto;
     padding: 60px;
     border: 0.5px solid var(--line);
-    background: rgba(11, 11, 13, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(11, 11, 13, 0.95);
+    /* backdrop-filter removed for performance — background is opaque enough */
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.03),
       0 40px 80px -30px rgba(0, 0, 0, 0.6);
@@ -2279,7 +2283,7 @@
     padding: 8px 0;
     outline: none;
     transition: border-color 0.3s, color 0.3s;
-    cursor: none;
+    cursor: text !important;
     width: 100%;
   }
   @media (hover: none) {
@@ -2316,6 +2320,44 @@
     transition: border-color 0.3s;
   }
   .form-select option { background: var(--ink); color: var(--bone); }
+
+  /* RGPD consent checkbox */
+  .form-rgpd {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 24px 0 8px;
+    padding: 16px;
+    background: rgba(187, 161, 79, 0.03);
+    border: 0.5px solid rgba(187, 161, 79, 0.15);
+  }
+  .form-rgpd input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--gold);
+    flex-shrink: 0;
+  }
+  .form-rgpd-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--bone-mute);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .form-rgpd-label a {
+    color: var(--gold);
+    border-bottom: 0.5px solid var(--gold);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .form-rgpd-label a:hover { opacity: 0.7; }
+  .form-rgpd-label .form-required { color: var(--gold); }
+  .form-rgpd.has-error { border-color: rgba(255, 107, 107, 0.6); }
 
   .form-submit {
     width: 100%;
@@ -3440,6 +3482,14 @@
             <label class="form-label" for="f-msg" data-i18n="form.msg">Mensagem <span>*</span></label>
             <textarea class="form-textarea" id="f-msg" name="message" required data-i18n-attr="placeholder" data-i18n="form.msg.ph" placeholder="Em que fase está a sua marca? Que problema procura resolver?"></textarea>
           </div>
+          <div class="form-field form-rgpd">
+            <input type="checkbox" id="f-rgpd" name="rgpd" required>
+            <label for="f-rgpd" class="form-rgpd-label">
+              <span data-i18n="form.rgpd1">Compreendo e aceito que a Midas Hub processe os meus dados para responder a esta solicitação, de acordo com a</span>
+              <a href="privacidade.html" target="_blank" data-i18n="form.rgpd.link">Política de Privacidade</a>.
+              <span class="form-required">*</span>
+            </label>
+          </div>
           <button type="submit" class="form-submit" data-magnetic>
             <span data-i18n="form.submit">Iniciar conversa</span>
             <svg width="20" height="10" viewBox="0 0 20 10" fill="none"><path d="M0 5H18M18 5L13 1M18 5L13 9" stroke="currentColor" stroke-width="1"/></svg>
@@ -3697,6 +3747,8 @@ const TRANSLATIONS = {
     'form.msg': 'Mensagem',
     'form.msg.ph': 'Em que fase está a sua marca? Que problema procura resolver?',
     'form.submit': 'Iniciar conversa',
+    'form.rgpd1': 'Compreendo e aceito que a Midas Hub processe os meus dados para responder a esta solicitação, de acordo com a',
+    'form.rgpd.link': 'Política de Privacidade',
     'form.success.title': 'Recebemos a sua mensagem.',
     'form.success.body': 'Respondemos em até 24 horas no email que indicou.',
     'footer.tag1': 'Alma humana.',
@@ -3885,6 +3937,8 @@ const TRANSLATIONS = {
     'form.msg': 'Message',
     'form.msg.ph': 'What stage is your brand at? What problem are you solving?',
     'form.submit': 'Start the conversation',
+    'form.rgpd1': 'I understand and consent that Midas Hub processes my data to respond to this request, in accordance with the',
+    'form.rgpd.link': 'Privacy Policy',
     'form.success.title': 'We\u2019ve received your message.',
     'form.success.body': 'We\u2019ll reply within 24 hours at the email you provided.',
     'footer.tag1': 'Human soul.',
@@ -4303,8 +4357,9 @@ function initHero3D() {
     alpha: true,
     powerPreference: IS_MOBILE ? 'low-power' : 'high-performance'
   });
-  // Lower pixel ratio mobile reduces fragment shader workload significantly
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, IS_MOBILE ? 1.5 : 2));
+  // Lower pixel ratio reduces fragment shader workload significantly.
+  // Wireframe doesn't benefit from high DPR — 1.25 desktop, 1 mobile is plenty.
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, IS_MOBILE ? 1 : 1.25));
 
   // WebGL context loss recovery — prevents crash on mobile when context is reclaimed
   canvas.addEventListener('webglcontextlost', (e) => {
@@ -4527,9 +4582,23 @@ function initHero3D() {
     halo3.material.opacity = 0.22 + Math.sin(t * 1.1 + 2) * 0.1;
     halo3.rotation.z = -t * 0.08;  // counter-rotation
 
-    renderer.render(scene, camera);
+    // Only render when hero is visible — saves GPU when user scrolls past
+    if (heroInView) renderer.render(scene, camera);
     requestAnimationFrame(tick);
   }
+
+  // IntersectionObserver: pause render when hero scrolls out
+  let heroInView = true;
+  if ('IntersectionObserver' in window) {
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+      const io = new IntersectionObserver((entries) => {
+        heroInView = entries[0].isIntersecting;
+      }, { threshold: 0.05 });
+      io.observe(heroSection);
+    }
+  }
+
   tick();
 }
 
@@ -5732,17 +5801,32 @@ const form = document.getElementById('contactForm');
 const formSuccess = document.getElementById('formSuccess');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  // Validate
+  // Validate (supports both text inputs and checkboxes)
   const required = form.querySelectorAll('[required]');
   let valid = true;
   required.forEach(f => {
-    if (!f.value.trim()) { valid = false; f.style.borderColor = '#ff6b6b'; }
-    else { f.style.borderColor = ''; }
+    if (f.type === 'checkbox') {
+      const wrap = f.closest('.form-rgpd');
+      if (!f.checked) {
+        valid = false;
+        if (wrap) wrap.classList.add('has-error');
+      } else {
+        if (wrap) wrap.classList.remove('has-error');
+      }
+    } else {
+      if (!f.value.trim()) { valid = false; f.style.borderColor = '#ff6b6b'; }
+      else { f.style.borderColor = ''; }
+    }
   });
   if (!valid) return;
 
-  // Mock submission (replace with real endpoint)
+  // Anti-spam: lock button immediately to prevent double-submit
   const submitBtn = form.querySelector('.form-submit');
+  submitBtn.disabled = true;
+  submitBtn.style.pointerEvents = 'none';
+  submitBtn.style.opacity = '0.7';
+
+  // Mock submission (replace with real endpoint)
   submitBtn.querySelector('span').textContent = currentLang === 'pt' ? 'A enviar...' : 'Sending...';
   setTimeout(() => {
     form.style.display = 'none';
