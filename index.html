@@ -848,13 +848,16 @@
     will-change: transform, opacity, filter;
   }
   /* Odd-indexed words come from the LEFT, even-indexed from the RIGHT.
-     clamp() prevents words flying from extreme distances on ultrawide monitors
-     and keeps the effect proportional on mobile. */
+     clamp() balances effect strength:
+     - Mobile (~375px): vw resolves between min/max for proportional movement
+     - Desktop (1920px+): cap at 480px so words travel a substantial distance
+       relative to their own width, making the convergent effect clearly visible.
+     - Ultrawide (3440px+): same cap prevents irreal flying distances. */
   .hero-headline .word.from-left {
-    transform: translateX(clamp(-180px, -30vw, -80px));
+    transform: translateX(clamp(-150px, -28vw, -480px));
   }
   .hero-headline .word.from-right {
-    transform: translateX(clamp(80px, 30vw, 180px));
+    transform: translateX(clamp(150px, 28vw, 480px));
   }
   .hero-headline.is-revealed .word {
     /* Slight micro-stagger so it doesn't feel mechanical,
@@ -3736,9 +3739,9 @@ const TRANSLATIONS = {
     'form.name': 'Nome',
     'form.name.ph': 'Como podemos chamá-lo',
     'form.email': 'Email',
-    'form.email.ph': 'onde respondemos',
+    'form.email.ph': 'Onde respondemos',
     'form.company': 'Marca / Empresa',
-    'form.company.ph': 'o nome da sua marca',
+    'form.company.ph': 'O nome da sua marca',
     'form.interest': 'Interesse',
     'form.interest.0': 'Selecione um braço',
     'form.interest.1': 'Midas Projects — Consultoria',
@@ -3926,9 +3929,9 @@ const TRANSLATIONS = {
     'form.name': 'Name',
     'form.name.ph': 'How should we call you',
     'form.email': 'Email',
-    'form.email.ph': 'where we reply',
+    'form.email.ph': 'Where we reply',
     'form.company': 'Brand / Company',
-    'form.company.ph': 'your brand name',
+    'form.company.ph': 'Your brand name',
     'form.interest': 'Interest',
     'form.interest.0': 'Select an arm',
     'form.interest.1': 'Midas Projects — Consulting',
@@ -5737,7 +5740,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     marquee.appendChild(clone3);
     gsap.to(marquee, {
       xPercent: -25,
-      duration: 40,
+      duration: 22,
       ease: 'none',
       repeat: -1
     });
