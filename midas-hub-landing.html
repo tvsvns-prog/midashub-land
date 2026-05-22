@@ -83,7 +83,7 @@
   @media (hover: none) { button { cursor: pointer; } }
 
   /* ============================================
-     GRAIN OVERLAY
+     GRAIN OVERLAY — static PNG (hardware-accelerated)
      ============================================ */
   .grain {
     position: fixed;
@@ -92,7 +92,11 @@
     pointer-events: none;
     opacity: 0.06;
     mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAAAAABWESUoAAAEK0lEQVR42gEgBN/7ADkMjH1yRzQs2BAPL293DWXWcOWOA1HYro5Pbqw0L8IxALewhxbrP8EolrliIxd0lCh3M8KO6LpTvbVriCRXfVPsAMKKcKYcdRChzYkhbKFs/8rqSYdHfobbzLlwRvwuGDhOAFHYIMXD74AFOoiuOZbeUOgBhls2mGVOv1IApfoJObmdAHodeygr+CNAQfNUh9hsZp/Mv+DnPX5zIK0KdXADJB51ACIQqSR5jvhtQ/J88tBhMDHctdjS7xsyH86tN39iYeVHANhdjux/JuIyGQcveVXQ+PZtzR5UwgHHh+iS2PlPYZdvAB0foB0Z9FAdKV8jInjOPX4UKdahhWigeofKQ5nqoSUEAOozJW2HQ7Ijfb2RUOCaBJk1RIc7Nk+LkGuvaIf6gBovANiNFgGqQoZS4toEOSZMEr1L3EEVnboUt2t/NLXQT3lTAFrTDFuq0n+IUTfDE/BxZuuznHRyDGLMqI4jjrPMqQ47AIVbhxM33rCg3zvFYYIW3wBkutwjqaA/mZ7Rp86XQWLXAMJZms8Am5Jr3KTu4uJt8lYrkasveJ5zZUsMF33zJenUAGPE/cx8SwI22XBa7Rl/PulE7aLi2uRR8+aEfo34eozhACeSeIuroylGTXbETm0g1NCp7tQfadfHCsL0A7SYx9ZwAPlwi9/4Dsesz1TvQQ3JDSrbRexdGYXCp2zop6zCjteBACnwCRqzciMUD35mCk56QPI6b+6DvFU6U583DZ/Ay2UmAHw0mj0Vsdu9I64G1/o23bnrTt5aivfu34mlfSyO5nztAMKsDv2mXflstYSuj40FYSt70Pp78/vlCC+Wcc98nLzyALDZqbToipyAdj1ioT1eYm73jZAzY5d0uFuaB0CMFxuVAED7NAaR8PXhrl4agfQ6Ic37JRtNTJsrfzzVc8Lm4pjbAJweMmpshylQelgmUAHR5vCVEHaTkOgkd4dl2TpzTIhIACQeVJ2T4D/vm86L/OApFN2lgA0udQqJFFnw4o5c3/suAPCy0aqkNVKo0v2TzRLoLaGBpTvOAOzTG2C5/+IaaIhDAJPg+D4OelGfB9AvczrsPE7/lYvU9/F86UrEYUUjjdSuAIgBkJj6TOT3sKrB6aRgesR30hai8sPFTf0SQKkz4TPpAAdJ0U8m8IetyymowqL5EiN4k3Qu3jIz41WZDhemHJa3AL/cSn3SXFdZKMN7/kl27ILrggTuk1Al4rCZ2YDpmmXEAPc2ecO3l5cLyowEGf6SdbRwYYBGMRSe4RG6Qy6Xp9RZAGZDu4tUg/aXrTrvJkhzy7suygeHP+i8hsO+N3fxDKdxACDtmtE7RxcTm/w7MXhFxui91k/UMvrQjxC9b+PjeLkyALy3H8uNYT7oLmwKGap8QGkjam53qEsBjUpCgFk4DUMHLk8ENgkCTjMAAAAASUVORK5CYII=");
+    background-repeat: repeat;
+    background-size: 96px 96px;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   /* ============================================
@@ -498,7 +502,7 @@
     pointer-events: none;
   }
 
-  /* Film grain — subtle */
+  /* Film grain — subtle (uses same PNG as global grain) */
   .hero-grain {
     position: absolute;
     inset: 0;
@@ -506,7 +510,8 @@
     pointer-events: none;
     opacity: 0.07;
     mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAAAAABWESUoAAAEK0lEQVR42gEgBN/7ADkMjH1yRzQs2BAPL293DWXWcOWOA1HYro5Pbqw0L8IxALewhxbrP8EolrliIxd0lCh3M8KO6LpTvbVriCRXfVPsAMKKcKYcdRChzYkhbKFs/8rqSYdHfobbzLlwRvwuGDhOAFHYIMXD74AFOoiuOZbeUOgBhls2mGVOv1IApfoJObmdAHodeygr+CNAQfNUh9hsZp/Mv+DnPX5zIK0KdXADJB51ACIQqSR5jvhtQ/J88tBhMDHctdjS7xsyH86tN39iYeVHANhdjux/JuIyGQcveVXQ+PZtzR5UwgHHh+iS2PlPYZdvAB0foB0Z9FAdKV8jInjOPX4UKdahhWigeofKQ5nqoSUEAOozJW2HQ7Ijfb2RUOCaBJk1RIc7Nk+LkGuvaIf6gBovANiNFgGqQoZS4toEOSZMEr1L3EEVnboUt2t/NLXQT3lTAFrTDFuq0n+IUTfDE/BxZuuznHRyDGLMqI4jjrPMqQ47AIVbhxM33rCg3zvFYYIW3wBkutwjqaA/mZ7Rp86XQWLXAMJZms8Am5Jr3KTu4uJt8lYrkasveJ5zZUsMF33zJenUAGPE/cx8SwI22XBa7Rl/PulE7aLi2uRR8+aEfo34eozhACeSeIuroylGTXbETm0g1NCp7tQfadfHCsL0A7SYx9ZwAPlwi9/4Dsesz1TvQQ3JDSrbRexdGYXCp2zop6zCjteBACnwCRqzciMUD35mCk56QPI6b+6DvFU6U583DZ/Ay2UmAHw0mj0Vsdu9I64G1/o23bnrTt5aivfu34mlfSyO5nztAMKsDv2mXflstYSuj40FYSt70Pp78/vlCC+Wcc98nLzyALDZqbToipyAdj1ioT1eYm73jZAzY5d0uFuaB0CMFxuVAED7NAaR8PXhrl4agfQ6Ic37JRtNTJsrfzzVc8Lm4pjbAJweMmpshylQelgmUAHR5vCVEHaTkOgkd4dl2TpzTIhIACQeVJ2T4D/vm86L/OApFN2lgA0udQqJFFnw4o5c3/suAPCy0aqkNVKo0v2TzRLoLaGBpTvOAOzTG2C5/+IaaIhDAJPg+D4OelGfB9AvczrsPE7/lYvU9/F86UrEYUUjjdSuAIgBkJj6TOT3sKrB6aRgesR30hai8sPFTf0SQKkz4TPpAAdJ0U8m8IetyymowqL5EiN4k3Qu3jIz41WZDhemHJa3AL/cSn3SXFdZKMN7/kl27ILrggTuk1Al4rCZ2YDpmmXEAPc2ecO3l5cLyowEGf6SdbRwYYBGMRSe4RG6Qy6Xp9RZAGZDu4tUg/aXrTrvJkhzy7suygeHP+i8hsO+N3fxDKdxACDtmtE7RxcTm/w7MXhFxui91k/UMvrQjxC9b+PjeLkyALy3H8uNYT7oLmwKGap8QGkjam53qEsBjUpCgFk4DUMHLk8ENgkCTjMAAAAASUVORK5CYII=");
+    background-size: 96px 96px;
   }
 
   /* ============================================
@@ -549,13 +554,15 @@
     border-radius: 50%;
     box-shadow: 0 0 4px rgba(187, 161, 79, 0.7);
     transform-origin: center;
+    --scale-base: 0.6;
+    transform: scale(var(--scale-base));
     animation: starTwinkle 7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     will-change: transform;
   }
-  /* Twinkle = scale variation only — no opacity change, no flicker */
+  /* Twinkle = scale variation only — uses --scale-base × multiplier */
   @keyframes starTwinkle {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.6); }
+    0%, 100% { transform: scale(var(--scale-base)); }
+    50%      { transform: scale(calc(var(--scale-base) * 1.6)); }
   }
 
   /* ============================================
@@ -840,20 +847,23 @@
     filter: blur(8px);
     will-change: transform, opacity, filter;
   }
-  /* Odd-indexed words come from the LEFT (-120vw start),
-     even-indexed words come from the RIGHT (+120vw start).
-     This is set in JS via inline style based on global word index. */
+  /* Odd-indexed words come from the LEFT, even-indexed from the RIGHT.
+     clamp() balances effect strength:
+     - Mobile (~375px): vw resolves between min/max for proportional movement
+     - Desktop (1920px+): cap at 480px so words travel a substantial distance
+       relative to their own width, making the convergent effect clearly visible.
+     - Ultrawide (3440px+): same cap prevents irreal flying distances. */
   .hero-headline .word.from-left {
-    transform: translateX(-60vw);
+    transform: translateX(clamp(-150px, -28vw, -480px));
   }
   .hero-headline .word.from-right {
-    transform: translateX(60vw);
+    transform: translateX(clamp(150px, 28vw, 480px));
   }
   .hero-headline.is-revealed .word {
-    /* Slight micro-stagger (0.04s per word) so it doesn't feel mechanical,
+    /* Slight micro-stagger so it doesn't feel mechanical,
        but still feels like a single convergent gesture (not sequential). */
-    animation: convergeIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: calc(0.3s + var(--w, 0) * 0.04s);
+    animation: convergeIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(0.6s + var(--w, 0) * 0.08s);
   }
   @keyframes convergeIn {
     0% {
@@ -900,16 +910,16 @@
     opacity: 0;
   }
   .hero-headline.is-revealed .line:nth-child(1)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
   }
   .hero-headline.is-revealed .line:nth-child(2)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.65s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.05s;
   }
   .hero-headline.is-revealed .line:nth-child(3)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.3s;
   }
   .hero-headline.is-revealed .line:nth-child(4)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.95s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.55s;
   }
   @keyframes goldSweep {
     0%   { background-position: -100% 0; opacity: 0; }
@@ -939,13 +949,13 @@
   }
   .hero-headline.is-revealed em::after {
     transform: scaleX(1);
-    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 2.0s;
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 2.6s;
   }
 
   /* Living typography — subtle breathing on em words */
   .hero-headline.is-revealed em {
     animation: livingBreath 5s ease-in-out infinite;
-    animation-delay: 2.8s;
+    animation-delay: 3.4s;
   }
   @keyframes livingBreath {
     0%, 100% { letter-spacing: -0.02em; }
@@ -1008,9 +1018,9 @@
     transform: translateY(14px);
     filter: blur(8px);
     transition:
-      opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s,
-      transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s,
-      filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s;
+      opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s,
+      transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s,
+      filter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s;
   }
   .hero-sub.is-revealed { opacity: 1; transform: translateY(0); filter: blur(0); }
 
@@ -1035,7 +1045,7 @@
   /* Scroll indicator */
   .hero-scroll {
     opacity: 0;
-    transition: opacity 1s ease 3.0s;
+    transition: opacity 1s ease 3.6s;
   }
   .hero-scroll.is-revealed { opacity: 1; }
   .hero-scroll-line {
@@ -1062,9 +1072,9 @@
     transform: translateY(10px);
     filter: blur(6px);
     transition:
-      opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s,
-      transform 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s,
-      filter 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s;
+      opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s,
+      transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s,
+      filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s;
   }
   .hero-status.is-revealed { opacity: 1; transform: translateY(0); filter: blur(0); }
   .hero-status::before {
@@ -1450,6 +1460,21 @@
     background: radial-gradient(ellipse at center, #0F0F12 0%, var(--ink-deep) 100%);
     border-top: 0.5px solid var(--line);
     border-bottom: 0.5px solid var(--line);
+  }
+  /* Mobile fallback decor — when WebGL is skipped on mobile */
+  .static-fallback-decor {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .static-fallback-decor svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   .tese-canvas-wrap canvas {
     position: absolute;
@@ -2216,9 +2241,8 @@
     margin: 0 auto;
     padding: 60px;
     border: 0.5px solid var(--line);
-    background: rgba(11, 11, 13, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(11, 11, 13, 0.95);
+    /* backdrop-filter removed for performance — background is opaque enough */
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.03),
       0 40px 80px -30px rgba(0, 0, 0, 0.6);
@@ -2262,7 +2286,7 @@
     padding: 8px 0;
     outline: none;
     transition: border-color 0.3s, color 0.3s;
-    cursor: none;
+    cursor: text !important;
     width: 100%;
   }
   @media (hover: none) {
@@ -2299,6 +2323,44 @@
     transition: border-color 0.3s;
   }
   .form-select option { background: var(--ink); color: var(--bone); }
+
+  /* RGPD consent checkbox */
+  .form-rgpd {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 24px 0 8px;
+    padding: 16px;
+    background: rgba(187, 161, 79, 0.03);
+    border: 0.5px solid rgba(187, 161, 79, 0.15);
+  }
+  .form-rgpd input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--gold);
+    flex-shrink: 0;
+  }
+  .form-rgpd-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--bone-mute);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .form-rgpd-label a {
+    color: var(--gold);
+    border-bottom: 0.5px solid var(--gold);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .form-rgpd-label a:hover { opacity: 0.7; }
+  .form-rgpd-label .form-required { color: var(--gold); }
+  .form-rgpd.has-error { border-color: rgba(255, 107, 107, 0.6); }
 
   .form-submit {
     width: 100%;
@@ -3423,6 +3485,14 @@
             <label class="form-label" for="f-msg" data-i18n="form.msg">Mensagem <span>*</span></label>
             <textarea class="form-textarea" id="f-msg" name="message" required data-i18n-attr="placeholder" data-i18n="form.msg.ph" placeholder="Em que fase está a sua marca? Que problema procura resolver?"></textarea>
           </div>
+          <div class="form-field form-rgpd">
+            <input type="checkbox" id="f-rgpd" name="rgpd" required>
+            <label for="f-rgpd" class="form-rgpd-label">
+              <span data-i18n="form.rgpd1">Compreendo e aceito que a Midas Hub processe os meus dados para responder a esta solicitação, de acordo com a</span>
+              <a href="privacidade.html" target="_blank" data-i18n="form.rgpd.link">Política de Privacidade</a>.
+              <span class="form-required">*</span>
+            </label>
+          </div>
           <button type="submit" class="form-submit" data-magnetic>
             <span data-i18n="form.submit">Iniciar conversa</span>
             <svg width="20" height="10" viewBox="0 0 20 10" fill="none"><path d="M0 5H18M18 5L13 1M18 5L13 9" stroke="currentColor" stroke-width="1"/></svg>
@@ -3501,6 +3571,14 @@
 <script>
 // Declared early to avoid TDZ when referenced by intro/loader before Lenis init
 var lenis;
+
+// Mobile detection (used throughout for performance tuning)
+const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches ||
+                  /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+const IS_SMALL_MOBILE = window.matchMedia('(max-width: 480px)').matches;
+// Device memory hint (Chrome only) — if device has <=4GB, treat as low-mem
+const IS_LOW_MEM = (navigator.deviceMemory && navigator.deviceMemory <= 4);
+const IS_CONSTRAINED = IS_MOBILE || IS_LOW_MEM;
 
 // Global error logging — surfaces any silent JS error
 window.addEventListener('error', (e) => {
@@ -3661,9 +3739,9 @@ const TRANSLATIONS = {
     'form.name': 'Nome',
     'form.name.ph': 'Como podemos chamá-lo',
     'form.email': 'Email',
-    'form.email.ph': 'onde respondemos',
+    'form.email.ph': 'Onde respondemos',
     'form.company': 'Marca / Empresa',
-    'form.company.ph': 'o nome da sua marca',
+    'form.company.ph': 'O nome da sua marca',
     'form.interest': 'Interesse',
     'form.interest.0': 'Selecione um braço',
     'form.interest.1': 'Midas Projects — Consultoria',
@@ -3672,6 +3750,8 @@ const TRANSLATIONS = {
     'form.msg': 'Mensagem',
     'form.msg.ph': 'Em que fase está a sua marca? Que problema procura resolver?',
     'form.submit': 'Iniciar conversa',
+    'form.rgpd1': 'Compreendo e aceito que a Midas Hub processe os meus dados para responder a esta solicitação, de acordo com a',
+    'form.rgpd.link': 'Política de Privacidade',
     'form.success.title': 'Recebemos a sua mensagem.',
     'form.success.body': 'Respondemos em até 24 horas no email que indicou.',
     'footer.tag1': 'Alma humana.',
@@ -3849,9 +3929,9 @@ const TRANSLATIONS = {
     'form.name': 'Name',
     'form.name.ph': 'How should we call you',
     'form.email': 'Email',
-    'form.email.ph': 'where we reply',
+    'form.email.ph': 'Where we reply',
     'form.company': 'Brand / Company',
-    'form.company.ph': 'your brand name',
+    'form.company.ph': 'Your brand name',
     'form.interest': 'Interest',
     'form.interest.0': 'Select an arm',
     'form.interest.1': 'Midas Projects — Consulting',
@@ -3860,6 +3940,8 @@ const TRANSLATIONS = {
     'form.msg': 'Message',
     'form.msg.ph': 'What stage is your brand at? What problem are you solving?',
     'form.submit': 'Start the conversation',
+    'form.rgpd1': 'I understand and consent that Midas Hub processes my data to respond to this request, in accordance with the',
+    'form.rgpd.link': 'Privacy Policy',
     'form.success.title': 'We\u2019ve received your message.',
     'form.success.body': 'We\u2019ll reply within 24 hours at the email you provided.',
     'footer.tag1': 'Human soul.',
@@ -4008,24 +4090,29 @@ if (!introAlreadySeen) lockScroll();
 
 let loaderProgress = 0;
 const loaderBarFill = document.getElementById('loaderBarFill');
+const LOADER_START_TIME = Date.now();
+const LOADER_MIN_DURATION = 1800; // Minimum 1.8s so the intro always has presence
+
 const loaderInterval = setInterval(() => {
-  // Faster progression — loader is now just a brief moment before the intro carries the narrative
-  loaderProgress += Math.random() * 14 + 6;
+  loaderProgress += Math.random() * 10 + 4;
   if (loaderProgress >= 100) {
     loaderProgress = 100;
     clearInterval(loaderInterval);
+
+    // Enforce minimum loader duration — wait remaining time if loader finished too fast
+    const elapsed = Date.now() - LOADER_START_TIME;
+    const wait = Math.max(0, LOADER_MIN_DURATION - elapsed);
+
     setTimeout(() => {
       loader.classList.add('is-done');
       setTimeout(() => { loader.style.display = 'none'; }, 1000);
 
       if (introAlreadySeen || prefersReducedMotion) {
-        // Skip the full intro — go directly to hero reveal
         setTimeout(finishIntro, 200);
       } else {
-        // Full intro sequence ~5.5s — fades to hero
         setTimeout(finishIntro, 5500);
       }
-    }, 200);
+    }, wait + 200);
   }
   loaderPct.textContent = String(Math.floor(loaderProgress)).padStart(3, '0');
   if (loaderBarFill) loaderBarFill.style.width = Math.floor(loaderProgress) + '%';
@@ -4080,11 +4167,11 @@ function revealHero() {
     if (heroScroll) heroScroll.classList.add('is-revealed');
     // Right coords entrance — staggered after headline finishes
     heroCoords.forEach((coord, i) => {
-      setTimeout(() => coord.classList.add('is-revealed'), 2200 + i * 180);
+      setTimeout(() => coord.classList.add('is-revealed'), 2800 + i * 220);
     });
     // Start active hero behaviors after content settles
-    setTimeout(startStatusRotation, 5500);
-    setTimeout(startLiveCoords, 6500);
+    setTimeout(startStatusRotation, 6500);
+    setTimeout(startLiveCoords, 7500);
   });
 }
 
@@ -4267,8 +4354,25 @@ function initHero3D() {
   const canvas = document.getElementById('hero-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: !IS_MOBILE, // antialias é caro em mobile
+    alpha: true,
+    powerPreference: IS_MOBILE ? 'low-power' : 'high-performance'
+  });
+  // Lower pixel ratio reduces fragment shader workload significantly.
+  // Wireframe doesn't benefit from high DPR — 1.25 desktop, 1 mobile is plenty.
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, IS_MOBILE ? 1 : 1.25));
+
+  // WebGL context loss recovery — prevents crash on mobile when context is reclaimed
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    console.warn('[Midas] Hero WebGL context lost — pausing render');
+  }, false);
+  canvas.addEventListener('webglcontextrestored', () => {
+    console.warn('[Midas] Hero WebGL context restored');
+  }, false);
+
   const setSize = () => {
     const w = canvas.clientWidth || window.innerWidth;
     const h = canvas.clientHeight || window.innerHeight;
@@ -4310,7 +4414,7 @@ function initHero3D() {
   group.add(coreDiamond);
 
   // 2) ORBITAL PARTICLES — increased count + slower speeds for more cinematic dust feel
-  const particleCount = 300;
+  const particleCount = IS_MOBILE ? 120 : 300;
   const positions = new Float32Array(particleCount * 3);
   const speeds = new Float32Array(particleCount);
   const radii = new Float32Array(particleCount);
@@ -4347,7 +4451,7 @@ function initHero3D() {
   scene.add(particles);
 
   // 2b) DEEP BACKGROUND PARTICLES — 400 distant slower particles for depth
-  const deepCount = 150;
+  const deepCount = IS_MOBILE ? 60 : 150;
   const deepPositions = new Float32Array(deepCount * 3);
   const deepAngles = new Float32Array(deepCount);
   const deepRadii = new Float32Array(deepCount);
@@ -4481,9 +4585,23 @@ function initHero3D() {
     halo3.material.opacity = 0.22 + Math.sin(t * 1.1 + 2) * 0.1;
     halo3.rotation.z = -t * 0.08;  // counter-rotation
 
-    renderer.render(scene, camera);
+    // Only render when hero is visible — saves GPU when user scrolls past
+    if (heroInView) renderer.render(scene, camera);
     requestAnimationFrame(tick);
   }
+
+  // IntersectionObserver: pause render when hero scrolls out
+  let heroInView = true;
+  if ('IntersectionObserver' in window) {
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+      const io = new IntersectionObserver((entries) => {
+        heroInView = entries[0].isIntersecting;
+      }, { threshold: 0.05 });
+      io.observe(heroSection);
+    }
+  }
+
   tick();
 }
 
@@ -4492,8 +4610,90 @@ function initHero3D() {
    Performance: IntersectionObserver pauses off-screen canvases.
    Each scene is isolated, shares same THREE.WebGLRenderer setup pattern.
    ============================================ */
+/* ============================================
+   STATIC FALLBACK — for mobile (no WebGL secondary canvases)
+   3 simple decorative patterns rotated across sections
+   ============================================ */
+function staticFallbackSVG(pattern) {
+  // All SVGs are 400x300 with a subtle gold accent
+  if (pattern === 0) {
+    // Concentric rings (echoes diamond halo)
+    return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="rg0" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#BBA14F" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#BBA14F" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="150" r="120" fill="url(#rg0)"/>
+      <circle cx="200" cy="150" r="80"  fill="none" stroke="rgba(187,161,79,0.35)" stroke-width="0.5"/>
+      <circle cx="200" cy="150" r="50"  fill="none" stroke="rgba(187,161,79,0.5)"  stroke-width="0.5"/>
+      <circle cx="200" cy="150" r="3"   fill="#D4BC6B"/>
+    </svg>`;
+  } else if (pattern === 1) {
+    // Diamond outline (echoes the intro M-diamond)
+    return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#D4BC6B" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#BBA14F" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>
+      <path d="M 200 70 L 280 150 L 200 230 L 120 150 Z" fill="none" stroke="url(#lg1)" stroke-width="0.8"/>
+      <path d="M 200 100 L 250 150 L 200 200 L 150 150 Z" fill="none" stroke="rgba(187,161,79,0.35)" stroke-width="0.5"/>
+      <circle cx="200" cy="150" r="2.5" fill="#D4BC6B"/>
+    </svg>`;
+  } else {
+    // Constellation dots (echoes hero stars)
+    return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="rg2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#BBA14F" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#BBA14F" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="200" cy="150" rx="160" ry="100" fill="url(#rg2)"/>
+      <g fill="#BBA14F">
+        <circle cx="80"  cy="80"  r="1"/>
+        <circle cx="140" cy="50"  r="1.2"/>
+        <circle cx="220" cy="70"  r="0.9"/>
+        <circle cx="300" cy="100" r="1.1"/>
+        <circle cx="340" cy="60"  r="0.8"/>
+        <circle cx="60"  cy="150" r="1.1"/>
+        <circle cx="120" cy="180" r="0.9"/>
+        <circle cx="280" cy="170" r="1.2"/>
+        <circle cx="340" cy="200" r="1"/>
+        <circle cx="90"  cy="240" r="1"/>
+        <circle cx="180" cy="260" r="1.2"/>
+        <circle cx="260" cy="230" r="0.9"/>
+        <circle cx="200" cy="150" r="2" fill="#D4BC6B"/>
+      </g>
+    </svg>`;
+  }
+}
+
 function initMiniScenes() {
   if (typeof THREE === 'undefined') return;
+
+  // ON MOBILE: skip all secondary WebGL canvases.
+  // Mobile browsers limit WebGL contexts to ~8 — having 13 causes crashes.
+  // Inject decorative SVG fallback so wraps don't appear empty.
+  if (IS_MOBILE) {
+    const allWraps = document.querySelectorAll('.tese-canvas-wrap, .branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap');
+    allWraps.forEach((wrap, idx) => {
+      wrap.classList.add('is-static-fallback');
+      // Hide the canvas
+      const cvs = wrap.querySelector('canvas');
+      if (cvs) cvs.style.display = 'none';
+      // Inject decorative SVG (rotates between 3 simple patterns)
+      const decor = document.createElement('div');
+      decor.className = 'static-fallback-decor';
+      const pattern = idx % 3;
+      decor.innerHTML = staticFallbackSVG(pattern);
+      wrap.appendChild(decor);
+    });
+    return;
+  }
 
   const sceneSpecs = [
     { selector: '.tese-canvas-wrap[data-canvas="human"] canvas',     type: 'human' },
@@ -5325,9 +5525,17 @@ function initMiniScenes() {
 (function bootThreeScenes() {
   function go() {
     initHero3D();
-    initMiniScenes();
+    // Skip mini-scenes entirely on mobile — they crash older devices
+    // due to too many simultaneous WebGL contexts (browsers cap at 8-16).
+    if (!IS_MOBILE) {
+      initMiniScenes();
+    } else {
+      // On mobile: hide the canvas elements so the empty squares don't show
+      document.querySelectorAll('.tese-canvas-wrap, .branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap').forEach(el => {
+        el.style.display = 'none';
+      });
+    }
     // After canvases mount, layout heights may shift slightly. Refresh ScrollTrigger
-    // so reveal triggers for sections below the fold (branches 2/3 etc) recompute correctly.
     if (typeof ScrollTrigger !== 'undefined') {
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }
@@ -5532,7 +5740,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     marquee.appendChild(clone3);
     gsap.to(marquee, {
       xPercent: -25,
-      duration: 40,
+      duration: 22,
       ease: 'none',
       repeat: -1
     });
@@ -5596,17 +5804,32 @@ const form = document.getElementById('contactForm');
 const formSuccess = document.getElementById('formSuccess');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  // Validate
+  // Validate (supports both text inputs and checkboxes)
   const required = form.querySelectorAll('[required]');
   let valid = true;
   required.forEach(f => {
-    if (!f.value.trim()) { valid = false; f.style.borderColor = '#ff6b6b'; }
-    else { f.style.borderColor = ''; }
+    if (f.type === 'checkbox') {
+      const wrap = f.closest('.form-rgpd');
+      if (!f.checked) {
+        valid = false;
+        if (wrap) wrap.classList.add('has-error');
+      } else {
+        if (wrap) wrap.classList.remove('has-error');
+      }
+    } else {
+      if (!f.value.trim()) { valid = false; f.style.borderColor = '#ff6b6b'; }
+      else { f.style.borderColor = ''; }
+    }
   });
   if (!valid) return;
 
-  // Mock submission (replace with real endpoint)
+  // Anti-spam: lock button immediately to prevent double-submit
   const submitBtn = form.querySelector('.form-submit');
+  submitBtn.disabled = true;
+  submitBtn.style.pointerEvents = 'none';
+  submitBtn.style.opacity = '0.7';
+
+  // Mock submission (replace with real endpoint)
   submitBtn.querySelector('span').textContent = currentLang === 'pt' ? 'A enviar...' : 'Sending...';
   setTimeout(() => {
     form.style.display = 'none';
