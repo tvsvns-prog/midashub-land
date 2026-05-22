@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Política de Privacidade — Midas Hub</title>
+<meta name="description" content="Política de privacidade e proteção de dados da Midas Hub, em conformidade com o RGPD." />
+<meta name="robots" content="index, follow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: hidden; }
+  ::selection { background: #BBA14F; color: #0B0B0D; }
+
+  :root {
+    --ink: #0B0B0D;
+    --ink-deep: #050507;
+    --petrol: #00263B;
+    --gold: #BBA14F;
+    --gold-soft: #D4BC6B;
+    --bone: #F5F2EA;
+    --bone-mute: #B8B3A7;
+    --line: rgba(187, 161, 79, 0.18);
+    --font-display: 'Gloock', 'Times New Roman', serif;
+    --font-sans: 'Geist', system-ui, sans-serif;
+    --font-mono: 'Geist Mono', 'SF Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--ink);
+    color: var(--bone);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: var(--gold); text-decoration: none; border-bottom: 0.5px solid var(--gold); transition: opacity 0.3s; }
+  a:hover { opacity: 0.7; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 600px) { .wrap { padding: 0 24px; } }
+
+  /* NAV (minimal) */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11, 11, 13, 0.85);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border-bottom: 0.5px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @media (max-width: 600px) { .nav-inner { padding: 14px 24px; } }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--bone);
+    border-bottom: none;
+  }
+  .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .nav-logo span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2px;
+  }
+  .nav-back {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--gold); opacity: 1; }
+  .nav-back-arrow { width: 14px; height: 14px; }
+
+  /* HEADER */
+  .page-header {
+    padding: 140px 0 80px;
+    border-bottom: 0.5px solid var(--line);
+  }
+  @media (max-width: 600px) { .page-header { padding: 100px 0 60px; } }
+  .page-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .page-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 0.5px;
+    background: var(--gold);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6.5vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  .page-title em { font-style: italic; color: var(--gold); }
+  .page-intro {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--bone-mute);
+    max-width: 620px;
+    font-weight: 300;
+  }
+  .page-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--line);
+  }
+  .page-meta-item { display: flex; flex-direction: column; gap: 6px; }
+  .page-meta-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--bone-mute);
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .page-meta-value {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--bone);
+    letter-spacing: 0.04em;
+  }
+
+  /* CONTENT */
+  .content { padding: 80px 0 120px; }
+  @media (max-width: 600px) { .content { padding: 56px 0 80px; } }
+  .section { margin-bottom: 56px; }
+  .section:last-child { margin-bottom: 0; }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.85;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
+    color: var(--bone);
+  }
+  .section-heading em { font-style: italic; color: var(--gold); }
+  .section p {
+    color: var(--bone-mute);
+    font-weight: 300;
+    margin-bottom: 16px;
+    line-height: 1.7;
+    max-width: 720px;
+  }
+  .section p:last-child { margin-bottom: 0; }
+  .section strong { color: var(--bone); font-weight: 500; }
+
+  .section ul {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+    max-width: 720px;
+  }
+  .section li {
+    color: var(--bone-mute);
+    font-weight: 300;
+    line-height: 1.7;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .section li strong { color: var(--bone); }
+
+  /* DEFINITION TABLE */
+  .deftable {
+    margin: 20px 0;
+    border-top: 0.5px solid var(--line);
+    border-bottom: 0.5px solid var(--line);
+  }
+  .defrow {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr;
+    gap: 32px;
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--line);
+  }
+  .defrow:last-child { border-bottom: none; }
+  @media (max-width: 600px) {
+    .defrow { grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
+  }
+  .defterm {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    text-transform: uppercase;
+    padding-top: 4px;
+  }
+  .defdesc { color: var(--bone-mute); font-weight: 300; line-height: 1.6; }
+  .defdesc strong { color: var(--bone); }
+
+  /* FOOTER */
+  .footer {
+    border-top: 0.5px solid var(--line);
+    padding: 48px 0;
+    background: var(--ink-deep);
+  }
+  .footer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--bone-mute);
+  }
+  .footer-text em { color: var(--gold); font-style: italic; }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 60;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    background: rgba(8, 8, 11, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 0.5px solid var(--line);
+    padding: 8px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--bone-mute);
+    padding: 4px 8px;
+    transition: color 0.3s;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+  }
+  .lang-toggle button.is-active { color: var(--gold); }
+  .lang-toggle-sep { color: var(--bone-mute); opacity: 0.3; }
+  @media (max-width: 600px) {
+    .lang-toggle { bottom: 20px; right: 20px; padding: 6px 12px; }
+  }
+
+  /* I18N hide/show */
+  [data-lang-pt] { display: block; }
+  [data-lang-en] { display: none; }
+  html[lang="en"] [data-lang-pt] { display: none; }
+  html[lang="en"] [data-lang-en] { display: block; }
+  span[data-lang-pt], span[data-lang-en] { display: inline; }
+  html[lang="en"] span[data-lang-pt] { display: none; }
+  html[lang="en"] span[data-lang-en] { display: inline; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="https://midashub.com/logo-mini.png" alt="" onerror="this.style.display='none'">
+      <div>
+        <div class="nav-logo-text">MIDAS</div>
+        <span>HUB</span>
+      </div>
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg class="nav-back-arrow" viewBox="0 0 14 14" fill="none"><path d="M9 1L3 7L9 13" stroke="currentColor" stroke-width="1"/></svg>
+      <span data-lang-pt>Voltar ao site</span>
+      <span data-lang-en>Back to site</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="page-eyebrow">
+      <span data-lang-pt>Documento legal · v1.0</span>
+      <span data-lang-en>Legal document · v1.0</span>
+    </div>
+    <h1 class="page-title">
+      <span data-lang-pt>Política de <em>Privacidade</em></span>
+      <span data-lang-en>Privacy <em>Policy</em></span>
+    </h1>
+    <p class="page-intro">
+      <span data-lang-pt>Levamos a sua privacidade a sério. Este documento descreve, em linguagem clara, quais dados recolhemos, porquê, e que controlo tem sobre eles — em conformidade com o Regulamento Geral de Proteção de Dados (RGPD) da União Europeia.</span>
+      <span data-lang-en>We take your privacy seriously. This document describes, in plain language, which data we collect, why, and what control you have over it — in compliance with the General Data Protection Regulation (GDPR) of the European Union.</span>
+    </p>
+    <div class="page-meta">
+      <div class="page-meta-item">
+        <span class="page-meta-label" data-lang-pt>Última atualização</span>
+        <span class="page-meta-label" data-lang-en>Last updated</span>
+        <span class="page-meta-value">22.05.2026</span>
+      </div>
+      <div class="page-meta-item">
+        <span class="page-meta-label" data-lang-pt>Jurisdição</span>
+        <span class="page-meta-label" data-lang-en>Jurisdiction</span>
+        <span class="page-meta-value">Portugal · UE</span>
+      </div>
+      <div class="page-meta-item">
+        <span class="page-meta-label">Versão</span>
+        <span class="page-meta-value">1.0</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<main class="content">
+  <div class="wrap">
+
+    <section class="section">
+      <span class="section-eyebrow">01</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Quem somos</span>
+        <span data-lang-en>Who we are</span>
+      </h2>
+      <div data-lang-pt>
+        <p><strong>Midas Hub</strong> é um hub de consultoria estratégica digital sediado no Porto, Portugal. Esta política descreve como tratamos dados pessoais recolhidos através do nosso site institucional.</p>
+        <p>Para qualquer questão relacionada com a sua privacidade ou para exercer os seus direitos enquanto titular dos dados, pode contactar-nos em: <a href="mailto:contato@midashub.agency">contato@midashub.agency</a>.</p>
+      </div>
+      <div data-lang-en>
+        <p><strong>Midas Hub</strong> is a strategic digital consultancy hub headquartered in Porto, Portugal. This policy describes how we handle personal data collected through our institutional website.</p>
+        <p>For any question related to your privacy or to exercise your rights as a data subject, you can contact us at: <a href="mailto:contato@midashub.agency">contato@midashub.agency</a>.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">02</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Que dados recolhemos</span>
+        <span data-lang-en>What data we collect</span>
+      </h2>
+      <div data-lang-pt>
+        <p>Recolhemos apenas o mínimo necessário para cada finalidade. As categorias de dados são:</p>
+        <ul>
+          <li><strong>Dados de contacto enviados via formulário</strong>: nome, email, marca, mensagem. Apenas quando o utilizador opta voluntariamente por nos contactar.</li>
+          <li><strong>Dados técnicos automáticos</strong>: endereço IP, navegador, sistema operativo e referrer — registados pelo servidor por questões de segurança e diagnóstico técnico, mantidos por um máximo de 30 dias.</li>
+          <li><strong>Preferências locais</strong>: as suas escolhas de consentimento e idioma são guardadas no armazenamento local do seu dispositivo (<em>localStorage</em>) — não saem do seu browser.</li>
+        </ul>
+        <p>Não recolhemos categorias especiais de dados (origem racial, opiniões políticas, convicções religiosas, dados biométricos, dados de saúde, etc.).</p>
+      </div>
+      <div data-lang-en>
+        <p>We collect only the minimum required for each purpose. The data categories are:</p>
+        <ul>
+          <li><strong>Contact data submitted via form</strong>: name, email, brand, message. Only when the user voluntarily chooses to contact us.</li>
+          <li><strong>Automatic technical data</strong>: IP address, browser, operating system and referrer — logged by the server for security and technical diagnostics, kept for a maximum of 30 days.</li>
+          <li><strong>Local preferences</strong>: your consent and language choices are stored in your device's local storage (<em>localStorage</em>) — they do not leave your browser.</li>
+        </ul>
+        <p>We do not collect special categories of data (racial origin, political opinions, religious beliefs, biometric data, health data, etc.).</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">03</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Bases legais & finalidades</span>
+        <span data-lang-en>Legal bases & purposes</span>
+      </h2>
+      <div data-lang-pt>
+        <p>O tratamento dos seus dados pessoais é feito ao abrigo das seguintes bases legais do RGPD:</p>
+        <div class="deftable">
+          <div class="defrow">
+            <div class="defterm">Consentimento</div>
+            <div class="defdesc">Quando ativa cookies funcionais ou analíticos no banner de privacidade, ou quando submete o formulário de contacto. <strong>Pode ser revogado a qualquer momento.</strong></div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Interesse legítimo</div>
+            <div class="defdesc">Para registos técnicos de segurança e diagnóstico de erros do site, com retenção limitada a 30 dias.</div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Execução pré-contratual</div>
+            <div class="defdesc">Para responder a pedidos de informação ou propostas que nos envia via formulário, mesmo antes da contratação formal dos nossos serviços.</div>
+          </div>
+        </div>
+      </div>
+      <div data-lang-en>
+        <p>The processing of your personal data is carried out under the following GDPR legal bases:</p>
+        <div class="deftable">
+          <div class="defrow">
+            <div class="defterm">Consent</div>
+            <div class="defdesc">When you enable functional or analytics cookies in the privacy banner, or when you submit the contact form. <strong>It can be withdrawn at any time.</strong></div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Legitimate interest</div>
+            <div class="defdesc">For technical security logs and site error diagnostics, with retention limited to 30 days.</div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Pre-contractual</div>
+            <div class="defdesc">To respond to information requests or proposals you send us via form, even before formal contracting of our services.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">04</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Cookies & tecnologias de terceiros</span>
+        <span data-lang-en>Cookies & third-party technologies</span>
+      </h2>
+      <div data-lang-pt>
+        <p>Este site usa um número minimal de tecnologias. Categorizamos cada uma e disponibilizamos controlo granular no banner de privacidade:</p>
+        <div class="deftable">
+          <div class="defrow">
+            <div class="defterm">Essenciais</div>
+            <div class="defdesc">Armazenamento local da sua preferência de idioma e da sua escolha de consentimento. Não envia dados a terceiros. <strong>Sempre ativos.</strong></div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Funcionais</div>
+            <div class="defdesc">Carregamento de tipografia via Google Fonts (servidor da Google). Quando ativados, o seu endereço IP é transmitido à Google. Sem a sua autorização, usamos tipografia de sistema. <strong>Opcionais.</strong></div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Analíticos</div>
+            <div class="defdesc">Atualmente não temos ferramentas analíticas ativas. Esta categoria é declarativa para o caso de implementarmos no futuro — nesse momento atualizaremos esta política e pediremos novo consentimento.</div>
+          </div>
+        </div>
+        <p>Não usamos cookies de marketing, remarketing, pixels de redes sociais ou ferramentas de rastreamento entre sites.</p>
+      </div>
+      <div data-lang-en>
+        <p>This site uses a minimal number of technologies. We categorise each one and provide granular control in the privacy banner:</p>
+        <div class="deftable">
+          <div class="defrow">
+            <div class="defterm">Essential</div>
+            <div class="defdesc">Local storage of your language preference and consent choice. Does not send data to third parties. <strong>Always active.</strong></div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Functional</div>
+            <div class="defdesc">Loading of typography via Google Fonts (Google server). When enabled, your IP address is transmitted to Google. Without your authorisation, we use system typography. <strong>Optional.</strong></div>
+          </div>
+          <div class="defrow">
+            <div class="defterm">Analytics</div>
+            <div class="defdesc">We currently have no analytics tools active. This category is declarative in case we implement them in the future — at that point we will update this policy and request new consent.</div>
+          </div>
+        </div>
+        <p>We do not use marketing cookies, remarketing, social media pixels or cross-site tracking tools.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">05</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Os seus <em>direitos</em></span>
+        <span data-lang-en>Your <em>rights</em></span>
+      </h2>
+      <div data-lang-pt>
+        <p>Enquanto titular dos dados, o RGPD garante-lhe direitos que respeitamos integralmente:</p>
+        <ul>
+          <li><strong>Direito de acesso</strong> — saber quais dados pessoais seus tratamos.</li>
+          <li><strong>Direito de retificação</strong> — corrigir dados inexatos ou incompletos.</li>
+          <li><strong>Direito ao apagamento</strong> ("direito a ser esquecido") — solicitar a eliminação dos seus dados.</li>
+          <li><strong>Direito à limitação</strong> — pedir restrição do tratamento.</li>
+          <li><strong>Direito de oposição</strong> — opor-se ao tratamento baseado em interesse legítimo.</li>
+          <li><strong>Direito à portabilidade</strong> — receber os seus dados num formato estruturado.</li>
+          <li><strong>Direito de retirar consentimento</strong> a qualquer momento, sem afetar a licitude do tratamento anterior.</li>
+          <li><strong>Direito de reclamação</strong> junto da autoridade de controlo competente (em Portugal, a <a href="https://www.cnpd.pt/" target="_blank" rel="noopener noreferrer">CNPD — Comissão Nacional de Proteção de Dados</a>).</li>
+        </ul>
+        <p>Para exercer qualquer destes direitos, envie um pedido para <a href="mailto:contato@midashub.agency">contato@midashub.agency</a>. Respondemos no prazo máximo de 30 dias.</p>
+      </div>
+      <div data-lang-en>
+        <p>As a data subject, the GDPR guarantees you rights that we fully respect:</p>
+        <ul>
+          <li><strong>Right of access</strong> — to know which of your personal data we process.</li>
+          <li><strong>Right to rectification</strong> — to correct inaccurate or incomplete data.</li>
+          <li><strong>Right to erasure</strong> ("right to be forgotten") — to request deletion of your data.</li>
+          <li><strong>Right to restriction</strong> — to request restriction of processing.</li>
+          <li><strong>Right to object</strong> — to object to processing based on legitimate interest.</li>
+          <li><strong>Right to portability</strong> — to receive your data in a structured format.</li>
+          <li><strong>Right to withdraw consent</strong> at any time, without affecting the lawfulness of prior processing.</li>
+          <li><strong>Right to complain</strong> to the competent supervisory authority (in Portugal, the <a href="https://www.cnpd.pt/" target="_blank" rel="noopener noreferrer">CNPD — National Data Protection Commission</a>).</li>
+        </ul>
+        <p>To exercise any of these rights, send a request to <a href="mailto:contato@midashub.agency">contato@midashub.agency</a>. We respond within a maximum of 30 days.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">06</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Conservação & segurança</span>
+        <span data-lang-en>Retention & security</span>
+      </h2>
+      <div data-lang-pt>
+        <p>Mantemos os dados apenas durante o tempo necessário para cada finalidade:</p>
+        <ul>
+          <li><strong>Mensagens de formulário</strong>: até 24 meses após o último contacto, salvo se a relação comercial continuar.</li>
+          <li><strong>Logs técnicos do servidor</strong>: máximo de 30 dias.</li>
+          <li><strong>Preferências locais (localStorage)</strong>: controladas pelo seu browser. Pode apagá-las a qualquer momento.</li>
+        </ul>
+        <p>Aplicamos medidas técnicas e organizacionais para proteger os seus dados contra acesso não autorizado, alteração ou destruição — incluindo encriptação TLS em trânsito, controlos de acesso restritos e revisão regular de procedimentos.</p>
+      </div>
+      <div data-lang-en>
+        <p>We keep data only for as long as necessary for each purpose:</p>
+        <ul>
+          <li><strong>Form messages</strong>: up to 24 months after the last contact, unless the commercial relationship continues.</li>
+          <li><strong>Server technical logs</strong>: maximum of 30 days.</li>
+          <li><strong>Local preferences (localStorage)</strong>: controlled by your browser. You can delete them at any time.</li>
+        </ul>
+        <p>We apply technical and organisational measures to protect your data against unauthorised access, alteration or destruction — including TLS encryption in transit, restricted access controls and regular procedure reviews.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">07</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Transferências internacionais</span>
+        <span data-lang-en>International transfers</span>
+      </h2>
+      <div data-lang-pt>
+        <p>Sempre que ativa cookies funcionais, o seu IP pode ser transmitido aos servidores da Google (Google Fonts) e Cloudflare (CDN para bibliotecas visuais), que operam fora do Espaço Económico Europeu. Estas transferências fazem-se ao abrigo das Cláusulas Contratuais-Tipo aprovadas pela Comissão Europeia.</p>
+        <p>Se preferir evitar estas transferências, basta recusar a categoria "Funcionais" no banner de privacidade — o site continuará a funcionar com tipografia do seu sistema.</p>
+      </div>
+      <div data-lang-en>
+        <p>Whenever you enable functional cookies, your IP may be transmitted to Google (Google Fonts) and Cloudflare (CDN for visual libraries) servers, which operate outside the European Economic Area. These transfers are made under the Standard Contractual Clauses approved by the European Commission.</p>
+        <p>If you prefer to avoid these transfers, simply decline the "Functional" category in the privacy banner — the site will continue to function with your system's typography.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-eyebrow">08</span>
+      <h2 class="section-heading">
+        <span data-lang-pt>Alterações a esta política</span>
+        <span data-lang-en>Changes to this policy</span>
+      </h2>
+      <div data-lang-pt>
+        <p>Podemos atualizar esta política periodicamente para refletir mudanças legais, técnicas ou operacionais. A versão e a data da última atualização estão sempre visíveis no topo deste documento.</p>
+        <p>Alterações materiais que afetem os seus direitos serão comunicadas previamente — sempre que possível, pelo banner do site e/ou por email se nos tiver dado um.</p>
+      </div>
+      <div data-lang-en>
+        <p>We may update this policy periodically to reflect legal, technical or operational changes. The version and date of the last update are always visible at the top of this document.</p>
+        <p>Material changes that affect your rights will be communicated in advance — whenever possible, via the site banner and/or email if you have provided one.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      <span data-lang-pt>© <span id="year"></span> <em>Midas Hub</em> — Porto, Portugal</span>
+      <span data-lang-en>© <span id="year-en"></span> <em>Midas Hub</em> — Porto, Portugal</span>
+    </div>
+    <div class="footer-text">
+      <a href="index.html" data-lang-pt>Voltar à home</a>
+      <a href="index.html" data-lang-en>Back to home</a>
+    </div>
+  </div>
+</footer>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-toggle">
+  <button onclick="setLang('pt')" id="langPT" class="is-active">PT</button>
+  <span class="lang-toggle-sep">/</span>
+  <button onclick="setLang('en')" id="langEN">EN</button>
+</div>
+
+<script>
+  // Year
+  const year = new Date().getFullYear();
+  document.getElementById('year').textContent = year;
+  document.getElementById('year-en').textContent = year;
+
+  // Language toggle (persists in localStorage)
+  function setLang(lang) {
+    document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
+    document.getElementById('langPT').classList.toggle('is-active', lang === 'pt');
+    document.getElementById('langEN').classList.toggle('is-active', lang === 'en');
+    try { localStorage.setItem('midas_lang', lang); } catch (e) {}
+  }
+
+  // Restore preference
+  try {
+    const stored = localStorage.getItem('midas_lang');
+    if (stored === 'en' || stored === 'pt') setLang(stored);
+  } catch (e) {}
+</script>
+
+</body>
+</html>
