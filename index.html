@@ -549,13 +549,15 @@
     border-radius: 50%;
     box-shadow: 0 0 4px rgba(187, 161, 79, 0.7);
     transform-origin: center;
+    --scale-base: 0.6;
+    transform: scale(var(--scale-base));
     animation: starTwinkle 7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     will-change: transform;
   }
-  /* Twinkle = scale variation only — no opacity change, no flicker */
+  /* Twinkle = scale variation only — uses --scale-base × multiplier */
   @keyframes starTwinkle {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.6); }
+    0%, 100% { transform: scale(var(--scale-base)); }
+    50%      { transform: scale(calc(var(--scale-base) * 1.6)); }
   }
 
   /* ============================================
@@ -850,10 +852,10 @@
     transform: translateX(60vw);
   }
   .hero-headline.is-revealed .word {
-    /* Slight micro-stagger (0.04s per word) so it doesn't feel mechanical,
+    /* Slight micro-stagger so it doesn't feel mechanical,
        but still feels like a single convergent gesture (not sequential). */
-    animation: convergeIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: calc(0.3s + var(--w, 0) * 0.04s);
+    animation: convergeIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(0.6s + var(--w, 0) * 0.08s);
   }
   @keyframes convergeIn {
     0% {
@@ -900,16 +902,16 @@
     opacity: 0;
   }
   .hero-headline.is-revealed .line:nth-child(1)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
   }
   .hero-headline.is-revealed .line:nth-child(2)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.65s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.05s;
   }
   .hero-headline.is-revealed .line:nth-child(3)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.3s;
   }
   .hero-headline.is-revealed .line:nth-child(4)::after {
-    animation: goldSweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.95s;
+    animation: goldSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 1.55s;
   }
   @keyframes goldSweep {
     0%   { background-position: -100% 0; opacity: 0; }
@@ -939,13 +941,13 @@
   }
   .hero-headline.is-revealed em::after {
     transform: scaleX(1);
-    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 2.0s;
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 2.6s;
   }
 
   /* Living typography — subtle breathing on em words */
   .hero-headline.is-revealed em {
     animation: livingBreath 5s ease-in-out infinite;
-    animation-delay: 2.8s;
+    animation-delay: 3.4s;
   }
   @keyframes livingBreath {
     0%, 100% { letter-spacing: -0.02em; }
@@ -1008,9 +1010,9 @@
     transform: translateY(14px);
     filter: blur(8px);
     transition:
-      opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s,
-      transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s,
-      filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s;
+      opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s,
+      transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s,
+      filter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s;
   }
   .hero-sub.is-revealed { opacity: 1; transform: translateY(0); filter: blur(0); }
 
@@ -1035,7 +1037,7 @@
   /* Scroll indicator */
   .hero-scroll {
     opacity: 0;
-    transition: opacity 1s ease 3.0s;
+    transition: opacity 1s ease 3.6s;
   }
   .hero-scroll.is-revealed { opacity: 1; }
   .hero-scroll-line {
@@ -1062,9 +1064,9 @@
     transform: translateY(10px);
     filter: blur(6px);
     transition:
-      opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s,
-      transform 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s,
-      filter 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s;
+      opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s,
+      transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s,
+      filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s;
   }
   .hero-status.is-revealed { opacity: 1; transform: translateY(0); filter: blur(0); }
   .hero-status::before {
@@ -1450,6 +1452,21 @@
     background: radial-gradient(ellipse at center, #0F0F12 0%, var(--ink-deep) 100%);
     border-top: 0.5px solid var(--line);
     border-bottom: 0.5px solid var(--line);
+  }
+  /* Mobile fallback decor — when WebGL is skipped on mobile */
+  .static-fallback-decor {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .static-fallback-decor svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   .tese-canvas-wrap canvas {
     position: absolute;
@@ -3502,6 +3519,14 @@
 // Declared early to avoid TDZ when referenced by intro/loader before Lenis init
 var lenis;
 
+// Mobile detection (used throughout for performance tuning)
+const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches ||
+                  /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+const IS_SMALL_MOBILE = window.matchMedia('(max-width: 480px)').matches;
+// Device memory hint (Chrome only) — if device has <=4GB, treat as low-mem
+const IS_LOW_MEM = (navigator.deviceMemory && navigator.deviceMemory <= 4);
+const IS_CONSTRAINED = IS_MOBILE || IS_LOW_MEM;
+
 // Global error logging — surfaces any silent JS error
 window.addEventListener('error', (e) => {
   console.error('[Midas] Runtime error:', e.message, 'at', e.filename + ':' + e.lineno);
@@ -4008,24 +4033,29 @@ if (!introAlreadySeen) lockScroll();
 
 let loaderProgress = 0;
 const loaderBarFill = document.getElementById('loaderBarFill');
+const LOADER_START_TIME = Date.now();
+const LOADER_MIN_DURATION = 1800; // Minimum 1.8s so the intro always has presence
+
 const loaderInterval = setInterval(() => {
-  // Faster progression — loader is now just a brief moment before the intro carries the narrative
-  loaderProgress += Math.random() * 14 + 6;
+  loaderProgress += Math.random() * 10 + 4;
   if (loaderProgress >= 100) {
     loaderProgress = 100;
     clearInterval(loaderInterval);
+
+    // Enforce minimum loader duration — wait remaining time if loader finished too fast
+    const elapsed = Date.now() - LOADER_START_TIME;
+    const wait = Math.max(0, LOADER_MIN_DURATION - elapsed);
+
     setTimeout(() => {
       loader.classList.add('is-done');
       setTimeout(() => { loader.style.display = 'none'; }, 1000);
 
       if (introAlreadySeen || prefersReducedMotion) {
-        // Skip the full intro — go directly to hero reveal
         setTimeout(finishIntro, 200);
       } else {
-        // Full intro sequence ~5.5s — fades to hero
         setTimeout(finishIntro, 5500);
       }
-    }, 200);
+    }, wait + 200);
   }
   loaderPct.textContent = String(Math.floor(loaderProgress)).padStart(3, '0');
   if (loaderBarFill) loaderBarFill.style.width = Math.floor(loaderProgress) + '%';
@@ -4080,11 +4110,11 @@ function revealHero() {
     if (heroScroll) heroScroll.classList.add('is-revealed');
     // Right coords entrance — staggered after headline finishes
     heroCoords.forEach((coord, i) => {
-      setTimeout(() => coord.classList.add('is-revealed'), 2200 + i * 180);
+      setTimeout(() => coord.classList.add('is-revealed'), 2800 + i * 220);
     });
     // Start active hero behaviors after content settles
-    setTimeout(startStatusRotation, 5500);
-    setTimeout(startLiveCoords, 6500);
+    setTimeout(startStatusRotation, 6500);
+    setTimeout(startLiveCoords, 7500);
   });
 }
 
@@ -4267,8 +4297,24 @@ function initHero3D() {
   const canvas = document.getElementById('hero-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: !IS_MOBILE, // antialias é caro em mobile
+    alpha: true,
+    powerPreference: IS_MOBILE ? 'low-power' : 'high-performance'
+  });
+  // Lower pixel ratio mobile reduces fragment shader workload significantly
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, IS_MOBILE ? 1.5 : 2));
+
+  // WebGL context loss recovery — prevents crash on mobile when context is reclaimed
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    console.warn('[Midas] Hero WebGL context lost — pausing render');
+  }, false);
+  canvas.addEventListener('webglcontextrestored', () => {
+    console.warn('[Midas] Hero WebGL context restored');
+  }, false);
+
   const setSize = () => {
     const w = canvas.clientWidth || window.innerWidth;
     const h = canvas.clientHeight || window.innerHeight;
@@ -4310,7 +4356,7 @@ function initHero3D() {
   group.add(coreDiamond);
 
   // 2) ORBITAL PARTICLES — increased count + slower speeds for more cinematic dust feel
-  const particleCount = 300;
+  const particleCount = IS_MOBILE ? 120 : 300;
   const positions = new Float32Array(particleCount * 3);
   const speeds = new Float32Array(particleCount);
   const radii = new Float32Array(particleCount);
@@ -4347,7 +4393,7 @@ function initHero3D() {
   scene.add(particles);
 
   // 2b) DEEP BACKGROUND PARTICLES — 400 distant slower particles for depth
-  const deepCount = 150;
+  const deepCount = IS_MOBILE ? 60 : 150;
   const deepPositions = new Float32Array(deepCount * 3);
   const deepAngles = new Float32Array(deepCount);
   const deepRadii = new Float32Array(deepCount);
@@ -4492,8 +4538,90 @@ function initHero3D() {
    Performance: IntersectionObserver pauses off-screen canvases.
    Each scene is isolated, shares same THREE.WebGLRenderer setup pattern.
    ============================================ */
+/* ============================================
+   STATIC FALLBACK — for mobile (no WebGL secondary canvases)
+   3 simple decorative patterns rotated across sections
+   ============================================ */
+function staticFallbackSVG(pattern) {
+  // All SVGs are 400x300 with a subtle gold accent
+  if (pattern === 0) {
+    // Concentric rings (echoes diamond halo)
+    return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="rg0" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#BBA14F" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#BBA14F" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="150" r="120" fill="url(#rg0)"/>
+      <circle cx="200" cy="150" r="80"  fill="none" stroke="rgba(187,161,79,0.35)" stroke-width="0.5"/>
+      <circle cx="200" cy="150" r="50"  fill="none" stroke="rgba(187,161,79,0.5)"  stroke-width="0.5"/>
+      <circle cx="200" cy="150" r="3"   fill="#D4BC6B"/>
+    </svg>`;
+  } else if (pattern === 1) {
+    // Diamond outline (echoes the intro M-diamond)
+    return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#D4BC6B" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#BBA14F" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>
+      <path d="M 200 70 L 280 150 L 200 230 L 120 150 Z" fill="none" stroke="url(#lg1)" stroke-width="0.8"/>
+      <path d="M 200 100 L 250 150 L 200 200 L 150 150 Z" fill="none" stroke="rgba(187,161,79,0.35)" stroke-width="0.5"/>
+      <circle cx="200" cy="150" r="2.5" fill="#D4BC6B"/>
+    </svg>`;
+  } else {
+    // Constellation dots (echoes hero stars)
+    return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="rg2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#BBA14F" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#BBA14F" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="200" cy="150" rx="160" ry="100" fill="url(#rg2)"/>
+      <g fill="#BBA14F">
+        <circle cx="80"  cy="80"  r="1"/>
+        <circle cx="140" cy="50"  r="1.2"/>
+        <circle cx="220" cy="70"  r="0.9"/>
+        <circle cx="300" cy="100" r="1.1"/>
+        <circle cx="340" cy="60"  r="0.8"/>
+        <circle cx="60"  cy="150" r="1.1"/>
+        <circle cx="120" cy="180" r="0.9"/>
+        <circle cx="280" cy="170" r="1.2"/>
+        <circle cx="340" cy="200" r="1"/>
+        <circle cx="90"  cy="240" r="1"/>
+        <circle cx="180" cy="260" r="1.2"/>
+        <circle cx="260" cy="230" r="0.9"/>
+        <circle cx="200" cy="150" r="2" fill="#D4BC6B"/>
+      </g>
+    </svg>`;
+  }
+}
+
 function initMiniScenes() {
   if (typeof THREE === 'undefined') return;
+
+  // ON MOBILE: skip all secondary WebGL canvases.
+  // Mobile browsers limit WebGL contexts to ~8 — having 13 causes crashes.
+  // Inject decorative SVG fallback so wraps don't appear empty.
+  if (IS_MOBILE) {
+    const allWraps = document.querySelectorAll('.tese-canvas-wrap, .branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap');
+    allWraps.forEach((wrap, idx) => {
+      wrap.classList.add('is-static-fallback');
+      // Hide the canvas
+      const cvs = wrap.querySelector('canvas');
+      if (cvs) cvs.style.display = 'none';
+      // Inject decorative SVG (rotates between 3 simple patterns)
+      const decor = document.createElement('div');
+      decor.className = 'static-fallback-decor';
+      const pattern = idx % 3;
+      decor.innerHTML = staticFallbackSVG(pattern);
+      wrap.appendChild(decor);
+    });
+    return;
+  }
 
   const sceneSpecs = [
     { selector: '.tese-canvas-wrap[data-canvas="human"] canvas',     type: 'human' },
@@ -5325,9 +5453,17 @@ function initMiniScenes() {
 (function bootThreeScenes() {
   function go() {
     initHero3D();
-    initMiniScenes();
+    // Skip mini-scenes entirely on mobile — they crash older devices
+    // due to too many simultaneous WebGL contexts (browsers cap at 8-16).
+    if (!IS_MOBILE) {
+      initMiniScenes();
+    } else {
+      // On mobile: hide the canvas elements so the empty squares don't show
+      document.querySelectorAll('.tese-canvas-wrap, .branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap').forEach(el => {
+        el.style.display = 'none';
+      });
+    }
     // After canvases mount, layout heights may shift slightly. Refresh ScrollTrigger
-    // so reveal triggers for sections below the fold (branches 2/3 etc) recompute correctly.
     if (typeof ScrollTrigger !== 'undefined') {
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }
