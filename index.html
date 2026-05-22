@@ -3463,13 +3463,13 @@
             </div>
             <div class="form-field">
               <label class="form-label" for="f-email" data-i18n="form.email">Email <span>*</span></label>
-              <input class="form-input" id="f-email" name="email" type="email" required data-i18n-attr="placeholder" data-i18n="form.email.ph" placeholder="onde respondemos" />
+              <input class="form-input" id="f-email" name="email" type="email" required data-i18n-attr="placeholder" data-i18n="form.email.ph" placeholder="Onde respondemos" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-field">
               <label class="form-label" for="f-company" data-i18n="form.company">Marca / Empresa</label>
-              <input class="form-input" id="f-company" name="company" type="text" data-i18n-attr="placeholder" data-i18n="form.company.ph" placeholder="o nome da sua marca" />
+              <input class="form-input" id="f-company" name="company" type="text" data-i18n-attr="placeholder" data-i18n="form.company.ph" placeholder="O nome da sua marca" />
             </div>
             <div class="form-field">
               <label class="form-label" for="f-interest" data-i18n="form.interest">Interesse</label>
@@ -5773,12 +5773,19 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
    ============================================ */
 const nav = document.getElementById('nav');
 let lastScroll = 0;
+let navTicking = false;
 window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  if (y > 60) nav.classList.add('is-scrolled');
-  else nav.classList.remove('is-scrolled');
-  lastScroll = y;
-});
+  // rAF throttle — único repaint por frame, não por evento (60fps cap)
+  if (navTicking) return;
+  navTicking = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    if (y > 60) nav.classList.add('is-scrolled');
+    else nav.classList.remove('is-scrolled');
+    lastScroll = y;
+    navTicking = false;
+  });
+}, { passive: true });
 
 /* ============================================
    MAGNETIC BUTTONS (without React state)
