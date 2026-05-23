@@ -2807,579 +2807,675 @@
   .consent-modal-actions .consent-btn { flex: 1; min-width: 140px; }
 
   /* ════════════════════════════════════════════════════════════════════════
-     MOBILE CINEMATIC EXPERIENCE
-     Cada secção é uma tela cinemática full-viewport.
-     Scroll-snap obrigatório para sensação de capítulos.
-     Microcopy radicalmente curta.
-     WebGL adicional ativo em Tese (2 canvases) — total 3 contextos mobile.
+     MOBILE CINEMATIC LAYER v3
+     Estratégia inspirada em Wise Pirates (vídeo bg + blocos sucintos) +
+     Loba (números gigantes full-screen). Renderiza um HTML mobile-only
+     paralelo (#mobile-app) e oculta o desktop em <=768px.
      ════════════════════════════════════════════════════════════════════════ */
+
+  #mobile-app { display: none; }
+
   @media (max-width: 768px) {
-
-    /* Scroll-snap parent */
-    html, body {
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-    }
-    html {
-      scroll-padding-top: 0;
-    }
-
-    /* Cada section principal vira tela cinemática */
+    /* Ativar mobile, esconder TUDO do desktop */
+    #mobile-app { display: block !important; }
+    nav,
     section,
-    .manifesto {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      min-height: 100dvh;
+    footer,
+    .consent-banner,
+    .consent-modal,
+    body > .grain,
+    body > #cursor-mini,
+    body > #cursor-mini-glow {
+      display: none !important;
+    }
+    /* Mas manter a intro overlay */
+    .intro-overlay { display: flex !important; }
+    /* Manter o consent ativo */
+    body.show-consent .consent-banner { display: block !important; }
+
+    body {
+      overflow-x: hidden;
+      cursor: auto !important;
+    }
+
+    /* ─── MOBILE NAV ─── */
+    .m-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px 24px !important;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Marquee é menor que viewport mas mantém snap */
-    .manifesto {
-      min-height: 40dvh;
-      justify-content: center;
-    }
-
-    /* Esconder elementos típicos de "documento" */
-    .reveal {
-      opacity: 1 !important;
-      transform: none !important;
-    }
-
-    /* ─── HUD CORNERS DE TELA (esquerda/direita topo) ─── */
-    .mobile-screen-hud {
-      position: absolute;
-      top: 24px;
-      left: 24px;
-      right: 24px;
-      display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      z-index: 5;
-      pointer-events: none;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(187, 161, 79, 0.5);
+      padding: 20px 24px;
+      background: linear-gradient(180deg, rgba(11,11,13,0.85) 0%, rgba(11,11,13,0) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
-    .mobile-screen-hud span:nth-child(2) {
+    .m-nav-logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
-    .mobile-screen-hud span:nth-child(2)::before {
-      content: '';
-      width: 14px;
-      height: 0.5px;
-      background: rgba(187, 161, 79, 0.5);
-    }
-
-    /* ─── TIPOGRAFIA RADICAL MOBILE ─── */
-    .hero-headline {
-      font-size: clamp(56px, 14vw, 96px) !important;
-      line-height: 0.88 !important;
-      letter-spacing: -0.035em !important;
-      max-width: none !important;
-    }
-    .tese-heading,
-    .ecosystem-heading,
-    .method-heading,
-    .differentials-heading,
-    .cta-heading {
-      font-size: clamp(48px, 13vw, 80px) !important;
-      line-height: 0.9 !important;
-      letter-spacing: -0.03em !important;
-    }
-    .tese-col-title,
-    .branch-name,
-    .method-act-title,
-    .diff-title {
-      font-size: clamp(40px, 11vw, 64px) !important;
-      line-height: 0.92 !important;
-      letter-spacing: -0.025em !important;
-    }
-
-    /* ─── ESCONDER CONTEÚDO SECUNDÁRIO ─── */
-    /* Mostra só o essencial dramático no mobile */
-    .tese-col-body p,
-    .branch-body,
-    .method-act-body,
-    .diff-desc,
-    .branch-tagline,
-    .branch-services,
-    .branch-metric,
-    .branch-meta,
-    .method-act-deliverable,
-    .tese-canvas-meta,
-    .branch-canvas-tag,
-    .branch-canvas-coord,
-    .method-canvas-tag,
-    .method-canvas-coord,
-    .branch-canvas-corner,
-    .method-canvas-corner,
-    .diff-canvas-corner,
-    .diff-canvas-tag,
-    .diff-canvas-tag-coord,
-    .diff-quote {
-      display: none !important;
-    }
-
-    /* Microcopy mobile-only (uma linha apenas) */
-    .mobile-micro {
-      display: block !important;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      color: var(--bone-mute);
-      text-transform: uppercase;
-      max-width: 280px;
-      margin-top: 24px;
-      line-height: 1.6;
-    }
-
-    /* ─── HERO MOBILE ─── */
-    .hero {
-      min-height: 100dvh;
-      padding: 80px 24px 60px !important;
-    }
-    .hero-headline {
-      margin-bottom: 32px;
-    }
-    .hero-meta-row,
-    .hero-meta {
-      display: none !important;
-    }
-    .hero-status {
-      font-size: 10px !important;
-      letter-spacing: 0.18em !important;
-    }
-
-    /* ─── TESE — Split em 2 telas cinemáticas ─── */
-    #tese {
-      padding: 0 !important;
-      min-height: auto !important;
-      scroll-snap-align: none;
-    }
-    #tese .wrap {
-      padding: 0;
-      max-width: none;
-    }
-    #tese .tese-header {
-      scroll-snap-align: start;
-      min-height: 100dvh;
-      padding: 80px 24px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    #tese .tese-grid {
-      display: block !important;
-      grid-template-columns: none !important;
-      gap: 0 !important;
-    }
-    #tese .tese-col {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      min-height: 100dvh !important;
-      margin-top: 0 !important;
-      padding: 80px 24px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .tese-col-label {
-      font-family: var(--font-mono);
-      font-size: 10px !important;
-      letter-spacing: 0.22em !important;
-      color: var(--gold);
-      margin-bottom: 32px !important;
-    }
-    .tese-canvas-wrap {
-      position: absolute !important;
-      inset: 0 !important;
-      margin: 0 !important;
-      z-index: 0;
-      opacity: 0.35;
-      pointer-events: none;
-    }
-    .tese-canvas-wrap canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-    .tese-col-title,
-    .tese-col-label,
-    .mobile-micro {
-      position: relative;
-      z-index: 2;
-    }
-
-    /* ─── MANIFESTO ─── */
-    .manifesto {
-      padding: 0 !important;
-      min-height: 50dvh !important;
-    }
-
-    /* ─── ECOSYSTEM — Cada branch é uma tela ─── */
-    #ecosystem {
-      padding: 0 !important;
-      min-height: auto !important;
-      scroll-snap-align: none;
-    }
-    #ecosystem .wrap {
-      padding: 0;
-      max-width: none;
-    }
-    #ecosystem .ecosystem-header {
-      scroll-snap-align: start;
-      min-height: 100dvh;
-      padding: 80px 24px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .ecosystem-list {
-      display: block !important;
-    }
-    .branch {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      min-height: 100dvh !important;
-      padding: 80px 24px 60px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      grid-template-columns: none !important;
-      gap: 0 !important;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 0 !important;
-    }
-    .branch-tag {
-      font-family: var(--font-mono);
-      font-size: 10px !important;
-      letter-spacing: 0.22em !important;
-      color: var(--gold) !important;
-      margin-bottom: 24px !important;
-    }
-    .branch-canvas-wrap {
-      position: absolute !important;
-      inset: 0 !important;
-      margin: 0 !important;
-      z-index: 0;
-      opacity: 0.25;
-      pointer-events: none;
-    }
-    .branch-canvas-wrap canvas,
-    .branch-canvas-wrap .static-fallback-decor svg {
-      width: 100% !important;
-      height: 100% !important;
-    }
-    .branch-content {
-      position: relative;
-      z-index: 2;
-      padding: 0 !important;
-    }
-    /* Big metric number visible always */
-    .mobile-branch-metric {
-      display: block !important;
-      margin-top: 48px;
-      position: relative;
-      z-index: 2;
-    }
-    .mobile-branch-metric-num {
+    .m-nav-logo svg { width: 22px; height: 22px; }
+    .m-nav-logo-text {
       font-family: var(--font-display);
-      font-size: clamp(60px, 18vw, 96px);
-      font-weight: 300;
-      letter-spacing: -0.04em;
-      color: var(--gold);
-      line-height: 0.9;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--bone);
+      font-weight: 400;
     }
-    .mobile-branch-metric-label {
+    .m-nav-logo-text em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .m-nav-lang {
+      display: flex;
+      gap: 12px;
       font-family: var(--font-mono);
       font-size: 10px;
-      letter-spacing: 0.2em;
-      color: var(--bone-mute);
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-top: 12px;
     }
+    .m-nav-lang button {
+      background: none;
+      border: none;
+      color: var(--bone-mute);
+      cursor: pointer;
+      padding: 4px 0;
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+    }
+    .m-nav-lang button.active { color: var(--gold); }
+    .m-nav-lang span { color: var(--bone-mute); }
 
-    /* ─── MÉTODO — Cada acto é uma tela ─── */
-    .method {
-      padding: 0 !important;
-      min-height: auto !important;
-      scroll-snap-align: none;
-    }
-    .method .method-inner,
-    .method .wrap {
-      padding: 0;
-      max-width: none;
-    }
-    .method-header {
-      scroll-snap-align: start;
+    /* ─── MOBILE SCREEN (cada tela) ─── */
+    .m-screen {
+      position: relative;
       min-height: 100dvh;
-      padding: 80px 24px 60px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-    }
-    .method-acts {
-      display: block !important;
-    }
-    .method-act {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      min-height: 100dvh !important;
-      padding: 80px 24px 60px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      grid-template-columns: none !important;
-      gap: 0 !important;
-      position: relative;
+      justify-content: flex-end;
+      padding: 80px 24px 60px;
       overflow: hidden;
-      margin-bottom: 0 !important;
-    }
-    .method-act::before,
-    .method-act::after {
-      display: none !important;
-    }
-    .method-act-step {
-      font-family: var(--font-mono);
-      font-size: 10px !important;
-      letter-spacing: 0.22em !important;
-      color: var(--gold) !important;
-      margin-bottom: 24px !important;
-    }
-    /* Big number watermark per method act */
-    .method-act .mobile-act-number {
-      display: block !important;
-      position: absolute;
-      bottom: 60px;
-      right: 24px;
-      font-family: var(--font-display);
-      font-size: clamp(120px, 35vw, 200px);
-      font-weight: 300;
-      line-height: 0.85;
-      color: var(--gold);
-      opacity: 0.12;
-      pointer-events: none;
-      z-index: 0;
-      letter-spacing: -0.05em;
-    }
-    .method-act-content {
-      position: relative;
-      z-index: 2;
-      padding: 0 !important;
-    }
-    .method-canvas-wrap {
-      display: none !important;
+      background: var(--ink);
     }
 
-    /* ─── FIGURES — Cada número é uma tela ─── */
-    .figures {
-      padding: 0 !important;
-      min-height: auto !important;
-      scroll-snap-align: none;
-    }
-    .figures .wrap {
-      padding: 0;
-      max-width: none;
-    }
-    .figures-grid {
-      display: block !important;
-      gap: 0 !important;
-    }
-    .figure {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      min-height: 100dvh !important;
-      padding: 80px 24px 60px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      align-items: flex-start !important;
-      position: relative;
-      overflow: hidden;
-      margin: 0 !important;
-      border: none !important;
-    }
-    .figure-label {
-      font-family: var(--font-mono);
-      font-size: 11px !important;
-      letter-spacing: 0.22em !important;
-      color: var(--gold) !important;
-      margin-bottom: 32px !important;
-      text-transform: uppercase;
-    }
-    .figure-num {
-      font-size: clamp(96px, 28vw, 180px) !important;
-      line-height: 0.9 !important;
-      letter-spacing: -0.05em !important;
-      color: var(--gold) !important;
-      font-weight: 300 !important;
-    }
-    .figure-num small {
-      font-size: 0.4em !important;
-    }
-    .figure-caption {
-      font-family: var(--font-mono);
-      font-size: 11px !important;
-      letter-spacing: 0.1em;
-      color: var(--bone-mute);
-      text-transform: uppercase;
-      margin-top: 32px !important;
-      max-width: 280px;
-      line-height: 1.6;
-    }
-    /* Watermark number background per figure */
-    .figure::after {
-      content: attr(data-fig);
+    /* Background WebGL/SVG layer */
+    .m-screen-bg {
       position: absolute;
-      bottom: 32px;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .m-screen-bg canvas,
+    .m-screen-bg svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .m-screen-bg::after {
+      /* Dim overlay para garantir legibilidade do texto */
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(11,11,13,0.4) 0%, rgba(11,11,13,0.85) 70%, rgba(11,11,13,0.95) 100%);
+      pointer-events: none;
+    }
+
+    .m-screen-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* HUD numérico topo (canto direito) */
+    .m-screen-hud {
+      position: absolute;
+      top: 80px;
       right: 24px;
       font-family: var(--font-mono);
       font-size: 9px;
       letter-spacing: 0.22em;
-      color: rgba(187, 161, 79, 0.3);
-    }
-
-    /* ─── DIFFERENTIALS — Cada um é uma tela ─── */
-    #differentials {
-      padding: 0 !important;
-      min-height: auto !important;
-      scroll-snap-align: none;
-    }
-    #differentials .wrap {
-      padding: 0;
-      max-width: none;
-    }
-    .differentials-header {
-      scroll-snap-align: start;
-      min-height: 100dvh;
-      padding: 80px 24px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .diff-list {
-      display: block !important;
-    }
-    .diff {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      min-height: 100dvh !important;
-      padding: 80px 24px 60px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      grid-template-columns: none !important;
-      gap: 0 !important;
-      position: relative;
-      overflow: hidden;
-      margin: 0 !important;
-      background: transparent !important;
-      border: none !important;
-    }
-    .diff-num {
-      font-family: var(--font-mono);
-      font-size: 10px !important;
-      letter-spacing: 0.22em !important;
-      color: var(--gold) !important;
-      margin-bottom: 24px !important;
-    }
-    /* Big watermark number per diff */
-    .diff .mobile-diff-watermark {
-      display: block !important;
-      position: absolute;
-      bottom: 60px;
-      right: -20px;
-      font-family: var(--font-display);
-      font-size: clamp(160px, 50vw, 280px);
-      font-weight: 300;
-      line-height: 0.85;
       color: var(--gold);
-      opacity: 0.08;
-      font-style: italic;
-      pointer-events: none;
-      z-index: 0;
-      letter-spacing: -0.05em;
-    }
-    .diff-content {
-      position: relative;
-      z-index: 2;
-      padding: 0 !important;
-    }
-
-    /* ─── CTA / CONTACT ─── */
-    .cta {
-      padding: 60px 24px !important;
-    }
-    .cta-inner,
-    .cta-inner .wrap {
-      padding: 0 !important;
-    }
-    .form-wrap {
-      padding: 32px 20px !important;
-    }
-
-    /* ─── SCROLL HINT INDICATOR ─── */
-    .mobile-scroll-hint {
-      display: flex !important;
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      flex-direction: column;
+      text-transform: uppercase;
+      display: flex;
       align-items: center;
       gap: 8px;
-      z-index: 4;
-      pointer-events: none;
-      animation: mobileScrollBounce 2.5s ease-in-out infinite;
+      z-index: 3;
     }
-    .mobile-scroll-hint span {
+    .m-screen-hud::before {
+      content: '';
+      width: 14px;
+      height: 0.5px;
+      background: var(--gold);
+    }
+
+    /* Eyebrow */
+    .m-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .m-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 0.5px;
+      background: var(--gold);
+    }
+
+    /* Headlines */
+    .m-headline {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 13vw, 80px);
+      line-height: 0.92;
+      letter-spacing: -0.025em;
+      font-weight: 300;
+      color: var(--bone);
+      margin-bottom: 24px;
+    }
+    .m-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Sub microcopy */
+    .m-sub {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      line-height: 1.7;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      max-width: 320px;
+      margin-bottom: 32px;
+    }
+
+    /* CTA */
+    .m-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      padding: 14px 20px;
+      border: 0.5px solid var(--gold);
+      background: rgba(187, 161, 79, 0.06);
+      align-self: flex-start;
+      transition: background 0.3s, color 0.3s;
+    }
+    .m-cta:hover, .m-cta:active {
+      background: var(--gold);
+      color: var(--ink);
+    }
+    .m-cta-arrow {
+      font-size: 14px;
+    }
+
+    /* Scroll hint */
+    .m-scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 3;
+      animation: mScrollBounce 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .m-scroll-hint span {
       font-family: var(--font-mono);
       font-size: 8px;
       letter-spacing: 0.3em;
-      color: var(--gold);
+      color: var(--bone-mute);
       text-transform: uppercase;
-      opacity: 0.7;
     }
-    .mobile-scroll-hint::after {
+    .m-scroll-hint::after {
       content: '';
-      width: 1px;
+      width: 0.5px;
       height: 24px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
+      background: linear-gradient(180deg, var(--gold), transparent);
     }
-    @keyframes mobileScrollBounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+    @keyframes mScrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
       50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
     }
 
-    /* ─── NAV mais discreto em mobile ─── */
-    .nav {
-      padding: 16px 20px !important;
+    /* ─── HERO ─── */
+    .m-hero {
+      justify-content: flex-end;
+      padding-bottom: 120px;
+    }
+    .m-hero .m-headline {
+      font-size: clamp(54px, 15vw, 92px);
+      line-height: 0.88;
+      letter-spacing: -0.035em;
+    }
+    .m-hero-eyebrow-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .m-hero-status {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .m-hero-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #66BB6A;
+      border-radius: 50%;
+      animation: mPulse 2s ease-in-out infinite;
+    }
+    @keyframes mPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ─── TESE SCREENS ─── */
+    .m-tese-screen {
+      justify-content: center;
+    }
+    .m-tese-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--bone-mute);
+      margin-top: 32px;
+      padding-left: 16px;
+      border-left: 1px solid var(--gold);
+      max-width: 280px;
+    }
+
+    /* ─── NUMBERS SCREENS (Loba-style) ─── */
+    .m-numbers-screen {
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .m-big-number {
+      font-family: var(--font-display);
+      font-size: clamp(130px, 38vw, 240px);
+      line-height: 0.85;
+      letter-spacing: -0.05em;
+      color: var(--gold);
+      font-weight: 300;
+      margin: 32px 0 24px;
+    }
+    .m-big-number small {
+      font-size: 0.35em;
+      vertical-align: top;
+      margin-top: 0.3em;
+      color: var(--gold-bright);
+    }
+    .m-number-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--bone);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .m-number-caption {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      line-height: 1.7;
+      max-width: 320px;
+      margin-top: 16px;
+    }
+
+    /* ─── ECOSYSTEM SCREEN ─── */
+    .m-eco-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .m-eco-card {
+      display: block;
+      text-decoration: none;
+      padding: 24px 20px;
+      background: rgba(187, 161, 79, 0.03);
+      border: 0.5px solid rgba(187, 161, 79, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .m-eco-card:active {
+      background: rgba(187, 161, 79, 0.08);
+      border-color: var(--gold);
+    }
+    .m-eco-card-num {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .m-eco-card-name {
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1.05;
+      color: var(--bone);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .m-eco-card-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .m-eco-card-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+    }
+    .m-eco-card-arrow {
+      position: absolute;
+      top: 24px;
+      right: 20px;
+      color: var(--gold);
+      font-size: 18px;
+    }
+
+    /* ─── DIFF SCREENS ─── */
+    .m-diff-watermark {
+      position: absolute;
+      bottom: -10px;
+      right: -20px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(200px, 60vw, 320px);
+      font-weight: 300;
+      line-height: 0.85;
+      color: var(--gold);
+      opacity: 0.1;
+      letter-spacing: -0.05em;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .m-diff-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--bone-mute);
+      margin-top: 32px;
+      max-width: 320px;
+    }
+
+    /* ─── METHOD SCREEN (4 acts em 1 tela com timeline) ─── */
+    .m-method-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 24px;
+      position: relative;
+    }
+    .m-method-item {
+      padding: 18px 0 18px 36px;
+      border-bottom: 0.5px solid rgba(187, 161, 79, 0.15);
+      position: relative;
+    }
+    .m-method-item:last-child { border-bottom: none; }
+    .m-method-item::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 18px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+    }
+    .m-method-item-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      line-height: 1.15;
+      color: var(--bone);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .m-method-item-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .m-method-item-desc {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.06em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    /* ─── CTA SCREEN (Form) ─── */
+    .m-cta-screen {
+      justify-content: center;
+    }
+    .m-cta-screen .m-headline {
+      margin-bottom: 16px;
+    }
+    .m-form {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .m-form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .m-form-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+    }
+    .m-form-label span {
+      color: var(--gold);
+    }
+    .m-form-input,
+    .m-form-textarea,
+    .m-form-select {
+      font-family: var(--font-display);
+      font-size: 17px;
+      background: transparent;
+      border: none;
+      border-bottom: 0.5px solid var(--line);
+      color: var(--bone);
+      padding: 10px 0;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.3s;
+    }
+    .m-form-input:focus,
+    .m-form-textarea:focus,
+    .m-form-select:focus {
+      border-color: var(--gold);
+    }
+    .m-form-input::placeholder,
+    .m-form-textarea::placeholder {
+      color: rgba(232, 228, 217, 0.25);
+      font-style: italic;
+    }
+    .m-form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .m-form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23BBA14F' stroke-width='0.6' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+    }
+    .m-form-select option {
+      background: var(--ink);
+      color: var(--bone);
+    }
+    .m-form-rgpd {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px;
+      background: rgba(187, 161, 79, 0.03);
+      border: 0.5px solid rgba(187, 161, 79, 0.15);
+    }
+    .m-form-rgpd input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+      flex-shrink: 0;
+    }
+    .m-form-rgpd label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      line-height: 1.7;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+    }
+    .m-form-rgpd label a {
+      color: var(--gold);
+      text-decoration: underline;
+      text-decoration-thickness: 0.5px;
+      text-underline-offset: 3px;
+    }
+    .m-form-submit {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: 20px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.3s;
+    }
+    .m-form-submit:hover { background: var(--gold-bright); }
+    .m-form-success {
+      padding: 32px 24px;
+      background: rgba(102, 187, 106, 0.05);
+      border: 0.5px solid rgba(102, 187, 106, 0.3);
+      text-align: center;
+      display: none;
+    }
+    .m-form-success.is-visible {
+      display: block;
+    }
+    .m-form-success-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--bone);
+      margin-bottom: 10px;
+    }
+    .m-form-success-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      line-height: 1.7;
+    }
+
+    /* ─── FOOTER ─── */
+    .m-footer {
+      padding: 60px 24px 40px;
+      background: var(--ink-deep);
+      border-top: 0.5px solid var(--line);
+    }
+    .m-footer-brand {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .m-footer-brand em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .m-footer-tagline {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .m-footer-block {
+      margin-bottom: 32px;
+    }
+    .m-footer-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .m-footer-value {
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--bone);
+      line-height: 1.5;
+    }
+    .m-footer-value a {
+      color: var(--bone);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--line);
+    }
+    .m-footer-meta {
+      padding-top: 24px;
+      border-top: 0.5px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+    }
+    .m-footer-meta a {
+      color: var(--bone-mute);
+      text-decoration: none;
     }
   }
 
-  /* Desktop hide mobile-only */
   @media (min-width: 769px) {
-    .mobile-screen-hud,
-    .mobile-micro,
-    .mobile-branch-metric,
-    .mobile-act-number,
-    .mobile-diff-watermark,
-    .mobile-scroll-hint {
-      display: none !important;
-    }
+    #mobile-app { display: none !important; }
   }
 
 </style>
@@ -3490,11 +3586,6 @@
      HERO
      ============================================ -->
 <section class="hero" id="hero">
-  <div class="mobile-scroll-hint"><span>Desça</span></div>
-  <div class="mobile-screen-hud">
-    <span>MIDAS · 01</span>
-    <span>HERO</span>
-  </div>
   <div class="hero-ambient"></div>
   <div class="hero-rays"></div>
   <canvas id="hero-canvas"></canvas>
@@ -3596,8 +3687,6 @@
 <section id="tese">
   <div class="wrap">
     <div class="tese-header reveal">
-      <div class="mobile-screen-hud"><span>TESE · 02</span><span>SEC 02/07</span></div>
-      <div class="mobile-scroll-hint"><span>Continue</span></div>
       <div>
         <span class="section-num"><span data-i18n="tese.label">A Tese</span></span>
       </div>
@@ -3609,10 +3698,8 @@
 
     <div class="tese-grid">
       <div class="tese-col reveal">
-        <div class="mobile-screen-hud"><span>HUMAN · 01</span><span>TESE 1/2</span></div>
         <div class="tese-col-label" data-i18n="tese.col1.label">Lado humano · 01</div>
         <h3 class="tese-col-title" data-i18n="tese.col1.title">A intuição<br>que a máquina não tem.</h3>
-        <p class="mobile-micro" data-i18n="tese.col1.micro">Curadoria que separa execução de transformação.</p>
         <div class="tese-col-body">
           <p data-i18n="tese.col1.p1">Por trás de cada projeto, profissionais validados no mercado — não freelancers anónimos. Estrategistas, criativos e operadores que conhecem o terreno e sabem quando uma decisão vai contra os dados, mas é a certa.</p>
           <p data-i18n="tese.col1.p2">É a curadoria que separa execução de transformação.</p>
@@ -3627,10 +3714,8 @@
       </div>
 
       <div class="tese-col reveal" style="margin-top: 80px;">
-        <div class="mobile-screen-hud"><span>MACHINE · 02</span><span>TESE 2/2</span></div>
         <div class="tese-col-label" data-i18n="tese.col2.label">Lado máquina · 02</div>
         <h3 class="tese-col-title" data-i18n="tese.col2.title">A precisão<br>que o humano não escala.</h3>
-        <p class="mobile-micro" data-i18n="tese.col2.micro">Boutique na profundidade. Plataforma na velocidade.</p>
         <div class="tese-col-body">
           <p data-i18n="tese.col2.p1">Inteligência artificial integrada em cada camada do processo — diagnóstico, criação, otimização, distribuição. Não como acessório, mas como infraestrutura. Decisões mais rápidas, testes mais densos, aprendizagem contínua.</p>
           <p data-i18n="tese.col2.p2">É o que permite operar com profundidade de boutique e velocidade de plataforma.</p>
@@ -3653,8 +3738,6 @@
 <section id="ecosystem">
   <div class="wrap">
     <div class="ecosystem-header reveal">
-      <div class="mobile-screen-hud"><span>ECO · 03</span><span>SEC 03/07</span></div>
-      <div class="mobile-scroll-hint"><span>Próximo</span></div>
       <div>
         <span class="section-num"><span data-i18n="ecosystem.label">Ecossistema</span></span>
       </div>
@@ -3666,7 +3749,6 @@
 
     <div class="ecosystem-list">
       <article class="branch reveal">
-        <div class="mobile-screen-hud"><span>PROJECTS · 01</span><span>ECO 1/3</span></div>
         <div class="branch-content">
           <div class="branch-tag" data-i18n="ecosystem.tag.01">Braço fundador · Ativo</div>
           <h3 class="branch-name">Midas <em>Projects</em></h3>
@@ -3717,20 +3799,9 @@
           <span class="branch-canvas-coord">MP.001</span>
           <canvas></canvas>
         </div>
-      
-        <div class="mobile-branch-metric">
-          <div class="mobile-branch-metric-num">150<small style="font-size:0.4em;">+</small></div>
-          <div class="mobile-branch-metric-label">Marcas transformadas desde 2022</div>
-        </div>
-      
-        <div class="mobile-branch-metric">
-          <div class="mobile-branch-metric-num">150<small style="font-size:0.4em;">+</small></div>
-          <div class="mobile-branch-metric-label">Marcas transformadas desde 2022</div>
-        </div>
       </article>
 
       <article class="branch reveal">
-        <div class="mobile-screen-hud"><span>PRODUCOES · 02</span><span>ECO 2/3</span></div>
         <div class="branch-content">
           <div class="branch-tag" data-i18n="ecosystem.tag.02">Segundo braço · Lançamento 2026</div>
           <h3 class="branch-name">Midas <em>Produções</em></h3>
@@ -3775,20 +3846,9 @@
           <span class="branch-canvas-coord">MP.002</span>
           <canvas></canvas>
         </div>
-      
-        <div class="mobile-branch-metric">
-          <div class="mobile-branch-metric-num">∞<small style="font-size:0.4em;"></small></div>
-          <div class="mobile-branch-metric-label">Eventos com IA generativa</div>
-        </div>
-      
-        <div class="mobile-branch-metric">
-          <div class="mobile-branch-metric-num">∞<small style="font-size:0.4em;"></small></div>
-          <div class="mobile-branch-metric-label">Eventos com IA generativa</div>
-        </div>
       </article>
 
       <article class="branch reveal">
-        <div class="mobile-screen-hud"><span>VISION · 03</span><span>ECO 3/3</span></div>
         <div class="branch-content">
           <div class="branch-tag" data-i18n="ecosystem.tag.03">Terceiro braço · Em desenho</div>
           <h3 class="branch-name" data-i18n="ecosystem.next.name">A próxima <em>vertical</em></h3>
@@ -3827,16 +3887,6 @@
           <span class="branch-canvas-coord">MP.003</span>
           <canvas></canvas>
         </div>
-      
-        <div class="mobile-branch-metric">
-          <div class="mobile-branch-metric-num">2025<small style="font-size:0.4em;"></small></div>
-          <div class="mobile-branch-metric-label">Laboratório de futuros</div>
-        </div>
-      
-        <div class="mobile-branch-metric">
-          <div class="mobile-branch-metric-num">2025<small style="font-size:0.4em;"></small></div>
-          <div class="mobile-branch-metric-label">Laboratório de futuros</div>
-        </div>
       </article>
     </div>
   </div>
@@ -3849,8 +3899,6 @@
   <div class="method-inner">
     <div class="wrap">
       <div class="method-header reveal">
-        <div class="mobile-screen-hud"><span>MÉTODO · 04</span><span>SEC 04/07</span></div>
-        <div class="mobile-scroll-hint"><span>Continue</span></div>
         <div>
           <span class="section-num"><span data-i18n="method.label">Método</span></span>
         </div>
@@ -3861,9 +3909,7 @@
       </div>
 
       <div class="method-acts">
-        <article class="method-act reveal" data-act="01">
-          <div class="mobile-screen-hud"><span>DIAGNOSE · 01</span><span>01/04</span></div>
-          <div class="mobile-act-number">01</div>
+        <article class="method-act reveal">
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s1.step">Fase 01 · Entrada</div>
             <h3 class="method-act-title" data-i18n="method.s1.title">Diagnóstico <em>estratégico</em></h3>
@@ -3884,9 +3930,7 @@
           </div>
         </article>
 
-        <article class="method-act reveal" data-act="02">
-          <div class="mobile-screen-hud"><span>POSITION · 02</span><span>02/04</span></div>
-          <div class="mobile-act-number">02</div>
+        <article class="method-act reveal">
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s2.step">Fase 02 · Direção</div>
             <h3 class="method-act-title" data-i18n="method.s2.title">Plano de <em>posicionamento</em></h3>
@@ -3907,9 +3951,7 @@
           </div>
         </article>
 
-        <article class="method-act reveal" data-act="03">
-          <div class="mobile-screen-hud"><span>EXECUTE · 03</span><span>03/04</span></div>
-          <div class="mobile-act-number">03</div>
+        <article class="method-act reveal">
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s3.step">Fase 03 · Operação</div>
             <h3 class="method-act-title" data-i18n="method.s3.title">Execução com <em>curadoria</em></h3>
@@ -3930,9 +3972,7 @@
           </div>
         </article>
 
-        <article class="method-act reveal" data-act="04">
-          <div class="mobile-screen-hud"><span>OPTIMIZE · 04</span><span>04/04</span></div>
-          <div class="mobile-act-number">04</div>
+        <article class="method-act reveal">
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s4.step">Fase 04 · Refinamento</div>
             <h3 class="method-act-title" data-i18n="method.s4.title">Otimização com <em>IA</em></h3>
@@ -3963,19 +4003,17 @@
 <section class="figures">
   <div class="wrap">
     <div class="figures-grid">
-      <!-- mobile HUD placed inside first figure for snap consistency -->
-      <div class="figure reveal" data-fig="NÚM · 01">
-        <div class="mobile-screen-hud"><span>NÚMEROS · 05</span><span>SEC 05/07</span></div>
+      <div class="figure reveal">
         <span class="figure-label" data-i18n="figures.f1.label">Marcas transformadas</span>
         <div class="figure-num"><span data-count="150">000</span><small>+</small></div>
         <p class="figure-caption" data-i18n="figures.f1.caption">Empresas em Portugal, Europa e Brasil que cruzaram pela mesa da Midas.</p>
       </div>
-      <div class="figure reveal" data-fig="NÚM · 02">
+      <div class="figure reveal">
         <span class="figure-label" data-i18n="figures.f2.label">Em mídia gerenciada</span>
         <div class="figure-num"><small>€</small><span data-count="5">0</span><small>M+</small></div>
         <p class="figure-caption" data-i18n="figures.f2.caption">Capital movimentado em campanhas de performance com retorno mensurável.</p>
       </div>
-      <div class="figure reveal" data-fig="NÚM · 03">
+      <div class="figure reveal">
         <span class="figure-label" data-i18n="figures.f3.label">Anos a refinar o método</span>
         <div class="figure-num"><span data-count="3">0</span><small>+</small></div>
         <p class="figure-caption" data-i18n="figures.f3.caption">Desde 2022, a construir o protocolo que une intuição humana e velocidade de máquina.</p>
@@ -3990,8 +4028,6 @@
 <section id="differentials">
   <div class="wrap">
     <div class="differentials-header reveal">
-      <div class="mobile-screen-hud"><span>DIF · 06</span><span>SEC 06/07</span></div>
-      <div class="mobile-scroll-hint"><span>Continue</span></div>
       <span class="section-num" style="margin-bottom: 32px; display:block;"><span data-i18n="diff.label">Diferenciais</span></span>
       <h2 class="differentials-heading">
         <span data-i18n="diff.heading1">O nível de elite,</span><br>
@@ -4001,8 +4037,6 @@
 
     <div class="diff-list">
       <article class="diff-item reveal">
-        <div class="mobile-screen-hud"><span>PROVA · 01</span><span>DIF 1/3</span></div>
-        <div class="mobile-diff-watermark">01</div>
         <div class="diff-mark"><span class="diff-mark-num">01</span></div>
         <div class="diff-content">
           <h3 class="diff-title">
@@ -4027,8 +4061,6 @@
       </article>
 
       <article class="diff-item reveal">
-        <div class="mobile-screen-hud"><span>PROVA · 02</span><span>DIF 2/3</span></div>
-        <div class="mobile-diff-watermark">02</div>
         <div class="diff-mark"><span class="diff-mark-num">02</span></div>
         <div class="diff-content">
           <h3 class="diff-title">
@@ -4053,8 +4085,6 @@
       </article>
 
       <article class="diff-item reveal">
-        <div class="mobile-screen-hud"><span>PROVA · 03</span><span>DIF 3/3</span></div>
-        <div class="mobile-diff-watermark">03</div>
         <div class="diff-mark"><span class="diff-mark-num">03</span></div>
         <div class="diff-content">
           <h3 class="diff-title">
@@ -4088,7 +4118,6 @@
   <div class="cta-inner">
     <div class="wrap">
       <div class="cta-header reveal">
-        <div class="mobile-screen-hud"><span>CONTACTO · 07</span><span>SEC 07/07</span></div>
         <span class="section-num"><span data-i18n="cta.label">Próximo passo</span></span>
         <h2 class="cta-heading">
           <span data-i18n="cta.heading1">Pronto para</span><br>
@@ -4265,13 +4294,11 @@ const TRANSLATIONS = {
     'tese.heading1': 'Onde agências competem por entrega,',
     'tese.heading2': 'competimos por transformação.',
     'tese.col1.label': 'Lado humano · 01',
-    'tese.col1.micro': 'Curadoria que separa execução de transformação.',
     'tese.col1.canvas.label': 'Refração · Lado humano',
     'tese.col1.title': 'A intuição<br>que a máquina não tem.',
     'tese.col1.p1': 'Por trás de cada projeto, profissionais validados no mercado — não freelancers anónimos. Estrategistas, criativos e operadores que conhecem o terreno e sabem quando uma decisão vai contra os dados, mas é a certa.',
     'tese.col1.p2': 'É a curadoria que separa execução de transformação.',
     'tese.col2.label': 'Lado máquina · 02',
-    'tese.col2.micro': 'Boutique na profundidade. Plataforma na velocidade.',
     'tese.col2.canvas.label': 'Malha · Lado máquina',
     'tese.col2.title': 'A precisão<br>que o humano não escala.',
     'tese.col2.p1': 'Inteligência artificial integrada em cada camada do processo — diagnóstico, criação, otimização, distribuição. Não como acessório, mas como infraestrutura. Decisões mais rápidas, testes mais densos, aprendizagem contínua.',
@@ -4457,13 +4484,11 @@ const TRANSLATIONS = {
     'tese.heading1': 'While agencies compete on delivery,',
     'tese.heading2': 'we compete on transformation.',
     'tese.col1.label': 'Human side · 01',
-    'tese.col1.micro': 'Curation that separates execution from transformation.',
     'tese.col1.canvas.label': 'Refraction · Human side',
     'tese.col1.title': 'The intuition<br>machines lack.',
     'tese.col1.p1': 'Behind every project, professionals validated by the market — not anonymous freelancers. Strategists, creatives and operators who know the terrain and recognise when a decision goes against the data but is still the right one.',
     'tese.col1.p2': 'Curation is what separates execution from transformation.',
     'tese.col2.label': 'Machine side · 02',
-    'tese.col2.micro': 'Boutique in depth. Platform in speed.',
     'tese.col2.canvas.label': 'Mesh · Machine side',
     'tese.col2.title': 'The precision<br>humans cannot scale.',
     'tese.col2.p1': 'Artificial intelligence woven into every layer of the process — diagnostics, creation, optimisation, distribution. Not as accessory, but as infrastructure. Faster decisions, denser experiments, continuous learning.',
@@ -5322,26 +5347,27 @@ function staticFallbackSVG(pattern) {
 function initMiniScenes() {
   if (typeof THREE === 'undefined') return;
 
-  // ON MOBILE: Keep TESE WebGL active (2 canvases — human + machine).
-  // Other secondary canvases (Ecosystem, Method, Differentials) get SVG fallback.
-  // Mobile WebGL limit ~8 contexts. Hero (1) + Tese (2) = 3. Safe margin.
-  const FALLBACK_ONLY_ON_MOBILE = IS_MOBILE;
-  if (FALLBACK_ONLY_ON_MOBILE) {
-    const fallbackWraps = document.querySelectorAll('.branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap');
-    fallbackWraps.forEach((wrap, idx) => {
+  // ON MOBILE: skip all secondary WebGL canvases.
+  // Mobile browsers limit WebGL contexts to ~8 — having 13 causes crashes.
+  // Inject decorative SVG fallback so wraps don't appear empty.
+  if (IS_MOBILE) {
+    const allWraps = document.querySelectorAll('.tese-canvas-wrap, .branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap');
+    allWraps.forEach((wrap, idx) => {
       wrap.classList.add('is-static-fallback');
+      // Hide the canvas
       const cvs = wrap.querySelector('canvas');
       if (cvs) cvs.style.display = 'none';
+      // Inject decorative SVG (rotates between 3 simple patterns)
       const decor = document.createElement('div');
       decor.className = 'static-fallback-decor';
       const pattern = idx % 3;
       decor.innerHTML = staticFallbackSVG(pattern);
       wrap.appendChild(decor);
     });
-    // Fall through to scene init below — but with mobile-filtered specs
+    return;
   }
 
-  const allSceneSpecs = [
+  const sceneSpecs = [
     { selector: '.tese-canvas-wrap[data-canvas="human"] canvas',     type: 'human' },
     { selector: '.tese-canvas-wrap[data-canvas="machine"] canvas',   type: 'machine' },
     { selector: '.branch-canvas-wrap[data-canvas="projects"] canvas',  type: 'projects' },
@@ -5355,11 +5381,6 @@ function initMiniScenes() {
     { selector: '.diff-canvas-wrap[data-canvas="grid"] canvas',      type: 'grid' },
     { selector: '.diff-canvas-wrap[data-canvas="orbit"] canvas',     type: 'orbit' }
   ];
-
-  // On mobile, keep only tese canvases (human + machine) — others have fallback SVG
-  const sceneSpecs = FALLBACK_ONLY_ON_MOBILE
-    ? allSceneSpecs.filter(s => s.type === 'human' || s.type === 'machine')
-    : allSceneSpecs;
 
   sceneSpecs.forEach(spec => {
     const canvas = document.querySelector(spec.selector);
@@ -6690,6 +6711,807 @@ if (document.readyState === 'loading') {
     </div>
   </div>
 </div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     MOBILE APP — Camada paralela cinemática (renderiza só em <=768px)
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="mobile-app">
+
+  <!-- NAV -->
+  <div class="m-nav">
+    <div class="m-nav-logo">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 4 L36 20 L20 36 L4 20 Z" stroke="#BBA14F" stroke-width="0.8" fill="none"/>
+        <path d="M11 10 L11 30 M11 10 L20 24 M20 24 L29 10 M29 10 L29 30" stroke="#BBA14F" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <span class="m-nav-logo-text">Midas <em>Hub</em></span>
+    </div>
+    <div class="m-nav-lang">
+      <button class="active" data-m-lang="pt">PT</button>
+      <span>/</span>
+      <button data-m-lang="en">EN</button>
+    </div>
+  </div>
+
+  <!-- ═══════ 01 HERO ═══════ -->
+  <section class="m-screen m-hero">
+    <div class="m-screen-bg">
+      <canvas id="m-hero-canvas"></canvas>
+    </div>
+    <div class="m-screen-hud">MIDAS · 01</div>
+    <div class="m-screen-content">
+      <div class="m-hero-eyebrow-block">
+        <div class="m-hero-status" data-m-i18n="m.hero.status">Hub estratégico digital · Porto, PT</div>
+      </div>
+      <h1 class="m-headline" data-m-i18n-html="m.hero.headline">
+        Onde a marca<br>vira <em>ouro.</em>
+      </h1>
+      <p class="m-sub" data-m-i18n="m.hero.sub">Estratégia + IA. Direção integrada para marcas em transformação.</p>
+      <a href="#m-contact" class="m-cta">
+        <span data-m-i18n="m.hero.cta">Iniciar conversa</span>
+        <span class="m-cta-arrow">→</span>
+      </a>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.scroll">Desça</span></div>
+  </section>
+
+  <!-- ═══════ 02 TESE HUMAN ═══════ -->
+  <section class="m-screen m-tese-screen">
+    <div class="m-screen-bg">
+      <canvas id="m-tese-human-canvas"></canvas>
+    </div>
+    <div class="m-screen-hud">TESE · 02</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.tese1.eyebrow">Lado humano · 01</div>
+      <h2 class="m-headline" data-m-i18n-html="m.tese1.headline">
+        A <em>intuição</em><br>que a máquina<br>não tem.
+      </h2>
+      <p class="m-tese-quote" data-m-i18n="m.tese1.quote">"Curadoria que separa execução de transformação."</p>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 03 TESE MACHINE ═══════ -->
+  <section class="m-screen m-tese-screen">
+    <div class="m-screen-bg">
+      <canvas id="m-tese-machine-canvas"></canvas>
+    </div>
+    <div class="m-screen-hud">TESE · 03</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.tese2.eyebrow">Lado máquina · 02</div>
+      <h2 class="m-headline" data-m-i18n-html="m.tese2.headline">
+        A <em>precisão</em><br>que o humano<br>não escala.
+      </h2>
+      <p class="m-tese-quote" data-m-i18n="m.tese2.quote">"Boutique na profundidade. Plataforma na velocidade."</p>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 04 ECOSSISTEMA ═══════ -->
+  <section class="m-screen">
+    <div class="m-screen-bg">
+      <canvas id="m-eco-canvas"></canvas>
+    </div>
+    <div class="m-screen-hud">ECO · 04</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.eco.eyebrow">Ecossistema</div>
+      <h2 class="m-headline" data-m-i18n-html="m.eco.headline">
+        Um hub.<br><em>Múltiplos<br>braços.</em>
+      </h2>
+      <div class="m-eco-cards">
+        <a href="#m-projects" class="m-eco-card">
+          <div class="m-eco-card-num">MP · 001</div>
+          <div class="m-eco-card-name">Midas <em>Projects</em></div>
+          <div class="m-eco-card-tag" data-m-i18n="m.eco.projects.tag">Consultoria estratégica · Ativo</div>
+          <span class="m-eco-card-arrow">→</span>
+        </a>
+        <a href="#m-producoes" class="m-eco-card">
+          <div class="m-eco-card-num">MP · 002</div>
+          <div class="m-eco-card-name">Midas <em>Produções</em></div>
+          <div class="m-eco-card-tag" data-m-i18n="m.eco.producoes.tag">Eventos & experiências · Q2 2026</div>
+          <span class="m-eco-card-arrow">→</span>
+        </a>
+        <a href="#m-vision" class="m-eco-card">
+          <div class="m-eco-card-num">MP · 003</div>
+          <div class="m-eco-card-name">Midas <em>Vision</em></div>
+          <div class="m-eco-card-tag" data-m-i18n="m.eco.vision.tag">Próxima vertical · Em desenho</div>
+          <span class="m-eco-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 05 MÉTODO ═══════ -->
+  <section class="m-screen">
+    <div class="m-screen-bg">
+      <canvas id="m-method-canvas"></canvas>
+    </div>
+    <div class="m-screen-hud">MÉTODO · 05</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.method.eyebrow">Método</div>
+      <h2 class="m-headline" data-m-i18n-html="m.method.headline">
+        Quatro fases.<br><em>Uma direção.</em>
+      </h2>
+      <div class="m-method-list">
+        <div class="m-method-item" data-step="01">
+          <div class="m-method-item-title" data-m-i18n-html="m.method.s1.title">Diagnóstico <em>estratégico</em></div>
+          <div class="m-method-item-desc" data-m-i18n="m.method.s1.desc">Mapeamos alavancas reais antes de vender.</div>
+        </div>
+        <div class="m-method-item" data-step="02">
+          <div class="m-method-item-title" data-m-i18n-html="m.method.s2.title">Plano de <em>posicionamento</em></div>
+          <div class="m-method-item-desc" data-m-i18n="m.method.s2.desc">Direção clara — não um deck genérico.</div>
+        </div>
+        <div class="m-method-item" data-step="03">
+          <div class="m-method-item-title" data-m-i18n-html="m.method.s3.title">Execução com <em>curadoria</em></div>
+          <div class="m-method-item-desc" data-m-i18n="m.method.s3.desc">Especialistas certos para cada frente.</div>
+        </div>
+        <div class="m-method-item" data-step="04">
+          <div class="m-method-item-title" data-m-i18n-html="m.method.s4.title">Otimização com <em>IA</em></div>
+          <div class="m-method-item-desc" data-m-i18n="m.method.s4.desc">Decisões em tempo real, escala sustentada.</div>
+        </div>
+      </div>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 06 NUMBER 1 ═══════ -->
+  <section class="m-screen m-numbers-screen">
+    <div class="m-screen-hud">NÚM · 06</div>
+    <div class="m-screen-content">
+      <div class="m-number-label" data-m-i18n="m.num1.label">Marcas transformadas</div>
+      <div class="m-big-number"><span data-m-count="150">0</span><small>+</small></div>
+      <div class="m-number-caption" data-m-i18n="m.num1.caption">Empresas em PT, EU e BR que cruzaram pela mesa da Midas desde 2022.</div>
+    </div>
+  </section>
+
+  <!-- ═══════ 07 NUMBER 2 ═══════ -->
+  <section class="m-screen m-numbers-screen">
+    <div class="m-screen-hud">NÚM · 07</div>
+    <div class="m-screen-content">
+      <div class="m-number-label" data-m-i18n="m.num2.label">Em mídia gerenciada</div>
+      <div class="m-big-number"><small>€</small><span data-m-count="5">0</span><small>M+</small></div>
+      <div class="m-number-caption" data-m-i18n="m.num2.caption">Capital movimentado em campanhas com retorno mensurável.</div>
+    </div>
+  </section>
+
+  <!-- ═══════ 08 NUMBER 3 ═══════ -->
+  <section class="m-screen m-numbers-screen">
+    <div class="m-screen-hud">NÚM · 08</div>
+    <div class="m-screen-content">
+      <div class="m-number-label" data-m-i18n="m.num3.label">Anos a refinar o método</div>
+      <div class="m-big-number"><span data-m-count="3">0</span><small>+</small></div>
+      <div class="m-number-caption" data-m-i18n="m.num3.caption">Desde 2022, a unir intuição humana e velocidade de máquina.</div>
+    </div>
+  </section>
+
+  <!-- ═══════ 09 DIFFERENTIAL 1 ═══════ -->
+  <section class="m-screen">
+    <div class="m-diff-watermark">01</div>
+    <div class="m-screen-hud">PROVA · 09</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.diff1.eyebrow">Princípio · 01</div>
+      <h2 class="m-headline" data-m-i18n-html="m.diff1.headline">
+        Estratégia,<br><em>não execução.</em>
+      </h2>
+      <p class="m-diff-quote" data-m-i18n="m.diff1.quote">"Posicionamento é a única decisão que não pode ser delegada."</p>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 10 DIFFERENTIAL 2 ═══════ -->
+  <section class="m-screen">
+    <div class="m-diff-watermark">02</div>
+    <div class="m-screen-hud">PROVA · 10</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.diff2.eyebrow">Princípio · 02</div>
+      <h2 class="m-headline" data-m-i18n-html="m.diff2.headline">
+        IA como<br><em>infraestrutura.</em>
+      </h2>
+      <p class="m-diff-quote" data-m-i18n="m.diff2.quote">"Acelera a estratégia. Não substitui o estratega."</p>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 11 DIFFERENTIAL 3 ═══════ -->
+  <section class="m-screen">
+    <div class="m-diff-watermark">03</div>
+    <div class="m-screen-hud">PROVA · 11</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.diff3.eyebrow">Princípio · 03</div>
+      <h2 class="m-headline" data-m-i18n-html="m.diff3.headline">
+        Curadoria<br><em>humana,</em><br>padrão de elite.
+      </h2>
+      <p class="m-diff-quote" data-m-i18n="m.diff3.quote">"Não montamos times. Selecionamos pessoas."</p>
+    </div>
+    <div class="m-scroll-hint"><span data-m-i18n="m.continue">Continue</span></div>
+  </section>
+
+  <!-- ═══════ 12 CTA / FORM ═══════ -->
+  <section class="m-screen m-cta-screen" id="m-contact">
+    <div class="m-screen-hud">CONTACTO · 12</div>
+    <div class="m-screen-content">
+      <div class="m-eyebrow" data-m-i18n="m.cta.eyebrow">Próximo passo</div>
+      <h2 class="m-headline" data-m-i18n-html="m.cta.headline">
+        Pronto para<br><em>virar ouro?</em>
+      </h2>
+      <p class="m-sub" data-m-i18n="m.cta.sub">Resposta em 24h com diagnóstico inicial gratuito.</p>
+
+      <form class="m-form" id="m-contact-form" novalidate>
+        <div class="m-form-field">
+          <label class="m-form-label" for="m-f-name" data-m-i18n="m.form.name">Nome <span>*</span></label>
+          <input class="m-form-input" id="m-f-name" name="name" type="text" required placeholder="Como podemos chamá-lo" />
+        </div>
+        <div class="m-form-field">
+          <label class="m-form-label" for="m-f-email" data-m-i18n="m.form.email">Email <span>*</span></label>
+          <input class="m-form-input" id="m-f-email" name="email" type="email" required placeholder="Onde respondemos" />
+        </div>
+        <div class="m-form-field">
+          <label class="m-form-label" for="m-f-brand" data-m-i18n="m.form.brand">Marca / Empresa</label>
+          <input class="m-form-input" id="m-f-brand" name="brand" type="text" placeholder="O nome da sua marca" />
+        </div>
+        <div class="m-form-field">
+          <label class="m-form-label" for="m-f-interest" data-m-i18n="m.form.interest">Interesse</label>
+          <select class="m-form-select" id="m-f-interest" name="interest">
+            <option value="" data-m-i18n="m.form.interest.0">Selecione um braço</option>
+            <option value="projects" data-m-i18n="m.form.interest.1">Midas Projects · Consultoria</option>
+            <option value="producoes" data-m-i18n="m.form.interest.2">Midas Produções · Eventos</option>
+            <option value="both" data-m-i18n="m.form.interest.3">Ambos / Não tenho a certeza</option>
+          </select>
+        </div>
+        <div class="m-form-field">
+          <label class="m-form-label" for="m-f-msg" data-m-i18n="m.form.msg">Mensagem <span>*</span></label>
+          <textarea class="m-form-textarea" id="m-f-msg" name="message" required placeholder="Em que fase está a sua marca? Que problema procura resolver?"></textarea>
+        </div>
+        <div class="m-form-rgpd">
+          <input type="checkbox" id="m-f-rgpd" name="rgpd" required>
+          <label for="m-f-rgpd" data-m-i18n-html="m.form.rgpd">
+            Compreendo e aceito que a Midas Hub processe os meus dados, de acordo com a <a href="privacidade.html" target="_blank">Política de Privacidade</a>. <span style="color:var(--gold)">*</span>
+          </label>
+        </div>
+        <button type="submit" class="m-form-submit" data-m-i18n="m.form.submit">Iniciar conversa →</button>
+      </form>
+
+      <div class="m-form-success" id="m-form-success">
+        <div class="m-form-success-title" data-m-i18n="m.form.success.title">Recebido.</div>
+        <div class="m-form-success-text" data-m-i18n="m.form.success.text">Voltamos em 24h.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="m-footer">
+    <div class="m-footer-brand">Midas <em>Hub</em></div>
+    <div class="m-footer-tagline" data-m-i18n="m.footer.tagline">Hub estratégico digital · Porto, PT</div>
+
+    <div class="m-footer-block">
+      <div class="m-footer-label" data-m-i18n="m.footer.contact">Contacto</div>
+      <div class="m-footer-value">
+        <a href="mailto:contato@midashub.agency">contato@midashub.agency</a>
+      </div>
+    </div>
+
+    <div class="m-footer-block">
+      <div class="m-footer-label" data-m-i18n="m.footer.location">Localização</div>
+      <div class="m-footer-value">Porto<br>Portugal</div>
+    </div>
+
+    <div class="m-footer-meta">
+      <span>© 2026 Midas Hub</span>
+      <a href="privacidade.html" data-m-i18n="m.footer.privacy">Privacidade</a>
+    </div>
+  </footer>
+
+</div>
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     MOBILE APP — JavaScript (renderiza só se viewport <=768px)
+     ════════════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
+  if (!MOBILE_MQ.matches) return; // Skip everything em desktop
+
+  // ─── I18N MOBILE ─────────────────────────────────────────
+  const M_T = {
+    pt: {
+      'm.hero.status': 'Hub estratégico digital · Porto, PT',
+      'm.hero.headline': 'Onde a marca<br>vira <em>ouro.</em>',
+      'm.hero.sub': 'Estratégia + IA. Direção integrada para marcas em transformação.',
+      'm.hero.cta': 'Iniciar conversa',
+      'm.scroll': 'Desça',
+      'm.continue': 'Continue',
+      'm.tese1.eyebrow': 'Lado humano · 01',
+      'm.tese1.headline': 'A <em>intuição</em><br>que a máquina<br>não tem.',
+      'm.tese1.quote': '"Curadoria que separa execução de transformação."',
+      'm.tese2.eyebrow': 'Lado máquina · 02',
+      'm.tese2.headline': 'A <em>precisão</em><br>que o humano<br>não escala.',
+      'm.tese2.quote': '"Boutique na profundidade. Plataforma na velocidade."',
+      'm.eco.eyebrow': 'Ecossistema',
+      'm.eco.headline': 'Um hub.<br><em>Múltiplos<br>braços.</em>',
+      'm.eco.projects.tag': 'Consultoria estratégica · Ativo',
+      'm.eco.producoes.tag': 'Eventos & experiências · Q2 2026',
+      'm.eco.vision.tag': 'Próxima vertical · Em desenho',
+      'm.method.eyebrow': 'Método',
+      'm.method.headline': 'Quatro fases.<br><em>Uma direção.</em>',
+      'm.method.s1.title': 'Diagnóstico <em>estratégico</em>',
+      'm.method.s1.desc': 'Mapeamos alavancas reais antes de vender.',
+      'm.method.s2.title': 'Plano de <em>posicionamento</em>',
+      'm.method.s2.desc': 'Direção clara — não um deck genérico.',
+      'm.method.s3.title': 'Execução com <em>curadoria</em>',
+      'm.method.s3.desc': 'Especialistas certos para cada frente.',
+      'm.method.s4.title': 'Otimização com <em>IA</em>',
+      'm.method.s4.desc': 'Decisões em tempo real, escala sustentada.',
+      'm.num1.label': 'Marcas transformadas',
+      'm.num1.caption': 'Empresas em PT, EU e BR que cruzaram pela mesa da Midas desde 2022.',
+      'm.num2.label': 'Em mídia gerenciada',
+      'm.num2.caption': 'Capital movimentado em campanhas com retorno mensurável.',
+      'm.num3.label': 'Anos a refinar o método',
+      'm.num3.caption': 'Desde 2022, a unir intuição humana e velocidade de máquina.',
+      'm.diff1.eyebrow': 'Princípio · 01',
+      'm.diff1.headline': 'Estratégia,<br><em>não execução.</em>',
+      'm.diff1.quote': '"Posicionamento é a única decisão que não pode ser delegada."',
+      'm.diff2.eyebrow': 'Princípio · 02',
+      'm.diff2.headline': 'IA como<br><em>infraestrutura.</em>',
+      'm.diff2.quote': '"Acelera a estratégia. Não substitui o estratega."',
+      'm.diff3.eyebrow': 'Princípio · 03',
+      'm.diff3.headline': 'Curadoria<br><em>humana,</em><br>padrão de elite.',
+      'm.diff3.quote': '"Não montamos times. Selecionamos pessoas."',
+      'm.cta.eyebrow': 'Próximo passo',
+      'm.cta.headline': 'Pronto para<br><em>virar ouro?</em>',
+      'm.cta.sub': 'Resposta em 24h com diagnóstico inicial gratuito.',
+      'm.form.name': 'Nome <span>*</span>',
+      'm.form.email': 'Email <span>*</span>',
+      'm.form.brand': 'Marca / Empresa',
+      'm.form.interest': 'Interesse',
+      'm.form.interest.0': 'Selecione um braço',
+      'm.form.interest.1': 'Midas Projects · Consultoria',
+      'm.form.interest.2': 'Midas Produções · Eventos',
+      'm.form.interest.3': 'Ambos / Não tenho a certeza',
+      'm.form.msg': 'Mensagem <span>*</span>',
+      'm.form.rgpd': 'Compreendo e aceito que a Midas Hub processe os meus dados, de acordo com a <a href="privacidade.html" target="_blank">Política de Privacidade</a>. <span style="color:var(--gold)">*</span>',
+      'm.form.submit': 'Iniciar conversa →',
+      'm.form.success.title': 'Recebido.',
+      'm.form.success.text': 'Voltamos em 24h.',
+      'm.footer.tagline': 'Hub estratégico digital · Porto, PT',
+      'm.footer.contact': 'Contacto',
+      'm.footer.location': 'Localização',
+      'm.footer.privacy': 'Privacidade'
+    },
+    en: {
+      'm.hero.status': 'Strategic digital hub · Porto, PT',
+      'm.hero.headline': 'Where the brand<br>turns to <em>gold.</em>',
+      'm.hero.sub': 'Strategy + AI. Integrated direction for brands in transformation.',
+      'm.hero.cta': 'Start the conversation',
+      'm.scroll': 'Scroll',
+      'm.continue': 'Continue',
+      'm.tese1.eyebrow': 'Human side · 01',
+      'm.tese1.headline': 'The <em>intuition</em><br>the machine<br>doesn\'t have.',
+      'm.tese1.quote': '"Curation that separates execution from transformation."',
+      'm.tese2.eyebrow': 'Machine side · 02',
+      'm.tese2.headline': 'The <em>precision</em><br>humans<br>can\'t scale.',
+      'm.tese2.quote': '"Boutique in depth. Platform in speed."',
+      'm.eco.eyebrow': 'Ecosystem',
+      'm.eco.headline': 'One hub.<br><em>Many arms.</em>',
+      'm.eco.projects.tag': 'Strategic consulting · Active',
+      'm.eco.producoes.tag': 'Events & experiences · Q2 2026',
+      'm.eco.vision.tag': 'Next vertical · In design',
+      'm.method.eyebrow': 'Method',
+      'm.method.headline': 'Four phases.<br><em>One direction.</em>',
+      'm.method.s1.title': 'Strategic <em>diagnosis</em>',
+      'm.method.s1.desc': 'We map real leverages before selling.',
+      'm.method.s2.title': 'Positioning <em>plan</em>',
+      'm.method.s2.desc': 'Clear direction — not a generic deck.',
+      'm.method.s3.title': 'Execution with <em>curation</em>',
+      'm.method.s3.desc': 'The right experts for each front.',
+      'm.method.s4.title': 'Optimization with <em>AI</em>',
+      'm.method.s4.desc': 'Real-time decisions, sustained scale.',
+      'm.num1.label': 'Brands transformed',
+      'm.num1.caption': 'Companies across PT, EU and BR served by Midas since 2022.',
+      'm.num2.label': 'In media managed',
+      'm.num2.caption': 'Capital moved in campaigns with measurable return.',
+      'm.num3.label': 'Years refining the method',
+      'm.num3.caption': 'Since 2022, uniting human intuition with machine speed.',
+      'm.diff1.eyebrow': 'Principle · 01',
+      'm.diff1.headline': 'Strategy,<br><em>not execution.</em>',
+      'm.diff1.quote': '"Positioning is the only decision you can\'t delegate."',
+      'm.diff2.eyebrow': 'Principle · 02',
+      'm.diff2.headline': 'AI as<br><em>infrastructure.</em>',
+      'm.diff2.quote': '"It accelerates strategy. It doesn\'t replace the strategist."',
+      'm.diff3.eyebrow': 'Principle · 03',
+      'm.diff3.headline': '<em>Human</em><br>curation,<br>elite standard.',
+      'm.diff3.quote': '"We don\'t build teams. We select people."',
+      'm.cta.eyebrow': 'Next step',
+      'm.cta.headline': 'Ready to<br><em>turn gold?</em>',
+      'm.cta.sub': '24h response with free initial diagnosis.',
+      'm.form.name': 'Name <span>*</span>',
+      'm.form.email': 'Email <span>*</span>',
+      'm.form.brand': 'Brand / Company',
+      'm.form.interest': 'Interest',
+      'm.form.interest.0': 'Select an arm',
+      'm.form.interest.1': 'Midas Projects · Consulting',
+      'm.form.interest.2': 'Midas Produções · Events',
+      'm.form.interest.3': 'Both / Not sure yet',
+      'm.form.msg': 'Message <span>*</span>',
+      'm.form.rgpd': 'I understand and consent that Midas Hub processes my data, in accordance with the <a href="privacidade.html" target="_blank">Privacy Policy</a>. <span style="color:var(--gold)">*</span>',
+      'm.form.submit': 'Start the conversation →',
+      'm.form.success.title': 'Received.',
+      'm.form.success.text': 'We respond in 24h.',
+      'm.footer.tagline': 'Strategic digital hub · Porto, PT',
+      'm.footer.contact': 'Contact',
+      'm.footer.location': 'Location',
+      'm.footer.privacy': 'Privacy'
+    }
+  };
+
+  let mLang = (localStorage.getItem('midas_lang') || 'pt');
+
+  function applyMobileI18n() {
+    const dict = M_T[mLang];
+    document.querySelectorAll('[data-m-i18n]').forEach(el => {
+      const key = el.getAttribute('data-m-i18n');
+      if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-m-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-m-i18n-html');
+      if (dict[key]) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('.m-nav-lang button').forEach(b => {
+      b.classList.toggle('active', b.dataset.mLang === mLang);
+    });
+  }
+
+  document.querySelectorAll('.m-nav-lang button').forEach(b => {
+    b.addEventListener('click', () => {
+      mLang = b.dataset.mLang;
+      localStorage.setItem('midas_lang', mLang);
+      applyMobileI18n();
+    });
+  });
+
+  applyMobileI18n();
+
+  // ─── COUNT-UP ANIMATION para números ─────────────────────
+  const mNumberObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        const target = parseInt(entry.target.dataset.mCount);
+        entry.target.dataset.counted = '1';
+        const duration = 1400;
+        const start = performance.now();
+        const startVal = 0;
+        const step = (now) => {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const v = Math.round(startVal + (target - startVal) * eased);
+          entry.target.textContent = v;
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('[data-m-count]').forEach(el => mNumberObserver.observe(el));
+
+  // ─── WEBGL BACKGROUNDS ───────────────────────────────────
+  // Hero diamond (renderiza só quando visible)
+  function initMobileWebGL() {
+    if (typeof THREE === 'undefined') {
+      setTimeout(initMobileWebGL, 200);
+      return;
+    }
+    // Mobile WebGL: 5 canvases. Pixel ratio capped, low-power, IO-pause.
+    const canvases = [
+      { id: 'm-hero-canvas',         build: buildHeroDiamond },
+      { id: 'm-tese-human-canvas',   build: buildHumanFlow   },
+      { id: 'm-tese-machine-canvas', build: buildMachineGrid },
+      { id: 'm-eco-canvas',          build: buildEcoOrbit    },
+      { id: 'm-method-canvas',       build: buildMethodStream}
+    ];
+    canvases.forEach(spec => {
+      const cv = document.getElementById(spec.id);
+      if (cv) {
+        try { spec.build(cv); } catch(e) { console.warn('[mobile webgl]', spec.id, e); }
+      }
+    });
+  }
+
+  function setupRenderer(canvas) {
+    const renderer = new THREE.WebGLRenderer({
+      canvas, antialias: false, alpha: true, powerPreference: 'low-power'
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+    canvas.addEventListener('webglcontextlost', e => e.preventDefault());
+    return renderer;
+  }
+
+  function ioGate(canvas, tickFn) {
+    let visible = true;
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting;
+      }, { threshold: 0.05 });
+      io.observe(canvas);
+    }
+    function loop() {
+      if (visible) tickFn();
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  function buildHeroDiamond(canvas) {
+    const renderer = setupRenderer(canvas);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 6;
+
+    const diamondGeo = new THREE.OctahedronGeometry(1.6, 0);
+    const diamondMat = new THREE.MeshBasicMaterial({
+      color: 0xBBA14F, wireframe: true, transparent: true, opacity: 0.5
+    });
+    const diamond = new THREE.Mesh(diamondGeo, diamondMat);
+    scene.add(diamond);
+
+    const halo = new THREE.Mesh(
+      new THREE.RingGeometry(2.4, 2.45, 64),
+      new THREE.MeshBasicMaterial({ color: 0xBBA14F, transparent: true, opacity: 0.25, side: THREE.DoubleSide })
+    );
+    scene.add(halo);
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    const clock = new THREE.Clock();
+    ioGate(canvas, () => {
+      const t = clock.getElapsedTime();
+      diamond.rotation.y = t * 0.35;
+      diamond.rotation.x = Math.sin(t * 0.4) * 0.25;
+      halo.rotation.z = t * 0.1;
+      renderer.render(scene, camera);
+    });
+  }
+
+  function buildHumanFlow(canvas) {
+    const renderer = setupRenderer(canvas);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 5;
+
+    // Flowing particles in organic spiral pattern
+    const N = 200;
+    const positions = new Float32Array(N * 3);
+    const phases = new Float32Array(N);
+    for (let i = 0; i < N; i++) {
+      positions[i*3] = (Math.random() - 0.5) * 5;
+      positions[i*3+1] = (Math.random() - 0.5) * 6;
+      positions[i*3+2] = (Math.random() - 0.5) * 2;
+      phases[i] = Math.random() * Math.PI * 2;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const mat = new THREE.PointsMaterial({ color: 0xBBA14F, size: 0.04, transparent: true, opacity: 0.6 });
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    const clock = new THREE.Clock();
+    ioGate(canvas, () => {
+      const t = clock.getElapsedTime();
+      const arr = geo.attributes.position.array;
+      for (let i = 0; i < N; i++) {
+        arr[i*3+1] += Math.sin(t * 0.5 + phases[i]) * 0.003;
+        arr[i*3]   += Math.cos(t * 0.4 + phases[i]) * 0.002;
+      }
+      geo.attributes.position.needsUpdate = true;
+      points.rotation.z = Math.sin(t * 0.1) * 0.1;
+      renderer.render(scene, camera);
+    });
+  }
+
+  function buildMachineGrid(canvas) {
+    const renderer = setupRenderer(canvas);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 5;
+
+    // Geometric grid
+    const grid = new THREE.GridHelper(8, 14, 0xBBA14F, 0x444444);
+    grid.material.transparent = true;
+    grid.material.opacity = 0.25;
+    grid.rotation.x = Math.PI / 3;
+    scene.add(grid);
+
+    // Pulse rings
+    const ringGeo = new THREE.RingGeometry(0.8, 0.85, 32);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xD4BC6B, transparent: true, opacity: 0.6, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    scene.add(ring);
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    const clock = new THREE.Clock();
+    ioGate(canvas, () => {
+      const t = clock.getElapsedTime();
+      grid.rotation.z = t * 0.05;
+      const s = 1 + (t * 0.5 % 1.5);
+      ring.scale.setScalar(s);
+      ring.material.opacity = 0.6 * (1 - (t * 0.5 % 1.5) / 1.5);
+      renderer.render(scene, camera);
+    });
+  }
+
+  function buildEcoOrbit(canvas) {
+    const renderer = setupRenderer(canvas);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 6;
+
+    // 3 orbit rings (one per branch)
+    const rings = [];
+    for (let i = 0; i < 3; i++) {
+      const r = 1.5 + i * 0.7;
+      const ring = new THREE.Mesh(
+        new THREE.RingGeometry(r, r + 0.01, 64),
+        new THREE.MeshBasicMaterial({ color: 0xBBA14F, transparent: true, opacity: 0.3 - i * 0.06, side: THREE.DoubleSide })
+      );
+      ring.rotation.x = Math.PI / 3;
+      rings.push(ring);
+      scene.add(ring);
+
+      // Orbit node
+      const node = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0xD4BC6B })
+      );
+      node.userData = { radius: r, speed: 0.3 - i * 0.07, offset: i * 2 };
+      scene.add(node);
+      rings[i].node = node;
+    }
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    const clock = new THREE.Clock();
+    ioGate(canvas, () => {
+      const t = clock.getElapsedTime();
+      rings.forEach(ring => {
+        const node = ring.node;
+        const ang = t * node.userData.speed + node.userData.offset;
+        node.position.x = Math.cos(ang) * node.userData.radius;
+        node.position.z = Math.sin(ang) * node.userData.radius;
+        node.position.y = Math.sin(ang) * node.userData.radius * 0.5;
+      });
+      renderer.render(scene, camera);
+    });
+  }
+
+  function buildMethodStream(canvas) {
+    const renderer = setupRenderer(canvas);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 5;
+
+    // Wave lines representing the 4 phases flowing
+    const lines = [];
+    for (let i = 0; i < 4; i++) {
+      const points = [];
+      for (let x = -4; x <= 4; x += 0.15) {
+        points.push(new THREE.Vector3(x, 0, 0));
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(points);
+      const mat = new THREE.LineBasicMaterial({ color: 0xBBA14F, transparent: true, opacity: 0.5 - i * 0.08 });
+      const line = new THREE.Line(geo, mat);
+      line.position.y = -1.5 + i;
+      line.userData = { phase: i * 0.5, freq: 0.6 + i * 0.15 };
+      lines.push(line);
+      scene.add(line);
+    }
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    const clock = new THREE.Clock();
+    ioGate(canvas, () => {
+      const t = clock.getElapsedTime();
+      lines.forEach(line => {
+        const arr = line.geometry.attributes.position.array;
+        for (let i = 0; i < arr.length; i += 3) {
+          arr[i+1] = Math.sin(arr[i] * line.userData.freq + t + line.userData.phase) * 0.3;
+        }
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+      renderer.render(scene, camera);
+    });
+  }
+
+  // Init WebGL
+  initMobileWebGL();
+
+  // ─── FORM HANDLING ───────────────────────────────────────
+  const mForm = document.getElementById('m-contact-form');
+  const mSuccess = document.getElementById('m-form-success');
+  if (mForm) {
+    mForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const required = mForm.querySelectorAll('[required]');
+      let valid = true;
+      required.forEach(f => {
+        if (f.type === 'checkbox') {
+          if (!f.checked) {
+            valid = false;
+            const wrap = f.closest('.m-form-rgpd');
+            if (wrap) wrap.style.borderColor = '#ff6b6b';
+          }
+        } else {
+          if (!f.value.trim()) {
+            valid = false;
+            f.style.borderColor = '#ff6b6b';
+          } else {
+            f.style.borderColor = '';
+          }
+        }
+      });
+      if (!valid) return;
+      const btn = mForm.querySelector('.m-form-submit');
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+      btn.textContent = (mLang === 'pt' ? 'A enviar...' : 'Sending...');
+      setTimeout(() => {
+        mForm.style.display = 'none';
+        mSuccess.classList.add('is-visible');
+      }, 1200);
+    });
+  }
+
+  // ─── SMOOTH SCROLL para anchor ───────────────────────────
+  document.querySelectorAll('#mobile-app a[href^="#m-"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+})();
+</script>
 
 </body>
 </html>
