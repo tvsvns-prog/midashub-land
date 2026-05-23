@@ -2806,6 +2806,582 @@
   }
   .consent-modal-actions .consent-btn { flex: 1; min-width: 140px; }
 
+  /* ════════════════════════════════════════════════════════════════════════
+     MOBILE CINEMATIC EXPERIENCE
+     Cada secção é uma tela cinemática full-viewport.
+     Scroll-snap obrigatório para sensação de capítulos.
+     Microcopy radicalmente curta.
+     WebGL adicional ativo em Tese (2 canvases) — total 3 contextos mobile.
+     ════════════════════════════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* Scroll-snap parent */
+    html, body {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+    html {
+      scroll-padding-top: 0;
+    }
+
+    /* Cada section principal vira tela cinemática */
+    section,
+    .manifesto {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 24px !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Marquee é menor que viewport mas mantém snap */
+    .manifesto {
+      min-height: 40dvh;
+      justify-content: center;
+    }
+
+    /* Esconder elementos típicos de "documento" */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* ─── HUD CORNERS DE TELA (esquerda/direita topo) ─── */
+    .mobile-screen-hud {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 5;
+      pointer-events: none;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(187, 161, 79, 0.5);
+    }
+    .mobile-screen-hud span:nth-child(2) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mobile-screen-hud span:nth-child(2)::before {
+      content: '';
+      width: 14px;
+      height: 0.5px;
+      background: rgba(187, 161, 79, 0.5);
+    }
+
+    /* ─── TIPOGRAFIA RADICAL MOBILE ─── */
+    .hero-headline {
+      font-size: clamp(56px, 14vw, 96px) !important;
+      line-height: 0.88 !important;
+      letter-spacing: -0.035em !important;
+      max-width: none !important;
+    }
+    .tese-heading,
+    .ecosystem-heading,
+    .method-heading,
+    .differentials-heading,
+    .cta-heading {
+      font-size: clamp(48px, 13vw, 80px) !important;
+      line-height: 0.9 !important;
+      letter-spacing: -0.03em !important;
+    }
+    .tese-col-title,
+    .branch-name,
+    .method-act-title,
+    .diff-title {
+      font-size: clamp(40px, 11vw, 64px) !important;
+      line-height: 0.92 !important;
+      letter-spacing: -0.025em !important;
+    }
+
+    /* ─── ESCONDER CONTEÚDO SECUNDÁRIO ─── */
+    /* Mostra só o essencial dramático no mobile */
+    .tese-col-body p,
+    .branch-body,
+    .method-act-body,
+    .diff-desc,
+    .branch-tagline,
+    .branch-services,
+    .branch-metric,
+    .branch-meta,
+    .method-act-deliverable,
+    .tese-canvas-meta,
+    .branch-canvas-tag,
+    .branch-canvas-coord,
+    .method-canvas-tag,
+    .method-canvas-coord,
+    .branch-canvas-corner,
+    .method-canvas-corner,
+    .diff-canvas-corner,
+    .diff-canvas-tag,
+    .diff-canvas-tag-coord,
+    .diff-quote {
+      display: none !important;
+    }
+
+    /* Microcopy mobile-only (uma linha apenas) */
+    .mobile-micro {
+      display: block !important;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      max-width: 280px;
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+
+    /* ─── HERO MOBILE ─── */
+    .hero {
+      min-height: 100dvh;
+      padding: 80px 24px 60px !important;
+    }
+    .hero-headline {
+      margin-bottom: 32px;
+    }
+    .hero-meta-row,
+    .hero-meta {
+      display: none !important;
+    }
+    .hero-status {
+      font-size: 10px !important;
+      letter-spacing: 0.18em !important;
+    }
+
+    /* ─── TESE — Split em 2 telas cinemáticas ─── */
+    #tese {
+      padding: 0 !important;
+      min-height: auto !important;
+      scroll-snap-align: none;
+    }
+    #tese .wrap {
+      padding: 0;
+      max-width: none;
+    }
+    #tese .tese-header {
+      scroll-snap-align: start;
+      min-height: 100dvh;
+      padding: 80px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #tese .tese-grid {
+      display: block !important;
+      grid-template-columns: none !important;
+      gap: 0 !important;
+    }
+    #tese .tese-col {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100dvh !important;
+      margin-top: 0 !important;
+      padding: 80px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .tese-col-label {
+      font-family: var(--font-mono);
+      font-size: 10px !important;
+      letter-spacing: 0.22em !important;
+      color: var(--gold);
+      margin-bottom: 32px !important;
+    }
+    .tese-canvas-wrap {
+      position: absolute !important;
+      inset: 0 !important;
+      margin: 0 !important;
+      z-index: 0;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .tese-canvas-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .tese-col-title,
+    .tese-col-label,
+    .mobile-micro {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ─── MANIFESTO ─── */
+    .manifesto {
+      padding: 0 !important;
+      min-height: 50dvh !important;
+    }
+
+    /* ─── ECOSYSTEM — Cada branch é uma tela ─── */
+    #ecosystem {
+      padding: 0 !important;
+      min-height: auto !important;
+      scroll-snap-align: none;
+    }
+    #ecosystem .wrap {
+      padding: 0;
+      max-width: none;
+    }
+    #ecosystem .ecosystem-header {
+      scroll-snap-align: start;
+      min-height: 100dvh;
+      padding: 80px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .ecosystem-list {
+      display: block !important;
+    }
+    .branch {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100dvh !important;
+      padding: 80px 24px 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      grid-template-columns: none !important;
+      gap: 0 !important;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0 !important;
+    }
+    .branch-tag {
+      font-family: var(--font-mono);
+      font-size: 10px !important;
+      letter-spacing: 0.22em !important;
+      color: var(--gold) !important;
+      margin-bottom: 24px !important;
+    }
+    .branch-canvas-wrap {
+      position: absolute !important;
+      inset: 0 !important;
+      margin: 0 !important;
+      z-index: 0;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+    .branch-canvas-wrap canvas,
+    .branch-canvas-wrap .static-fallback-decor svg {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .branch-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 !important;
+    }
+    /* Big metric number visible always */
+    .mobile-branch-metric {
+      display: block !important;
+      margin-top: 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .mobile-branch-metric-num {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 18vw, 96px);
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      color: var(--gold);
+      line-height: 0.9;
+    }
+    .mobile-branch-metric-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    /* ─── MÉTODO — Cada acto é uma tela ─── */
+    .method {
+      padding: 0 !important;
+      min-height: auto !important;
+      scroll-snap-align: none;
+    }
+    .method .method-inner,
+    .method .wrap {
+      padding: 0;
+      max-width: none;
+    }
+    .method-header {
+      scroll-snap-align: start;
+      min-height: 100dvh;
+      padding: 80px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .method-acts {
+      display: block !important;
+    }
+    .method-act {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100dvh !important;
+      padding: 80px 24px 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      grid-template-columns: none !important;
+      gap: 0 !important;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0 !important;
+    }
+    .method-act::before,
+    .method-act::after {
+      display: none !important;
+    }
+    .method-act-step {
+      font-family: var(--font-mono);
+      font-size: 10px !important;
+      letter-spacing: 0.22em !important;
+      color: var(--gold) !important;
+      margin-bottom: 24px !important;
+    }
+    /* Big number watermark per method act */
+    .method-act .mobile-act-number {
+      display: block !important;
+      position: absolute;
+      bottom: 60px;
+      right: 24px;
+      font-family: var(--font-display);
+      font-size: clamp(120px, 35vw, 200px);
+      font-weight: 300;
+      line-height: 0.85;
+      color: var(--gold);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: -0.05em;
+    }
+    .method-act-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 !important;
+    }
+    .method-canvas-wrap {
+      display: none !important;
+    }
+
+    /* ─── FIGURES — Cada número é uma tela ─── */
+    .figures {
+      padding: 0 !important;
+      min-height: auto !important;
+      scroll-snap-align: none;
+    }
+    .figures .wrap {
+      padding: 0;
+      max-width: none;
+    }
+    .figures-grid {
+      display: block !important;
+      gap: 0 !important;
+    }
+    .figure {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100dvh !important;
+      padding: 80px 24px 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: flex-start !important;
+      position: relative;
+      overflow: hidden;
+      margin: 0 !important;
+      border: none !important;
+    }
+    .figure-label {
+      font-family: var(--font-mono);
+      font-size: 11px !important;
+      letter-spacing: 0.22em !important;
+      color: var(--gold) !important;
+      margin-bottom: 32px !important;
+      text-transform: uppercase;
+    }
+    .figure-num {
+      font-size: clamp(96px, 28vw, 180px) !important;
+      line-height: 0.9 !important;
+      letter-spacing: -0.05em !important;
+      color: var(--gold) !important;
+      font-weight: 300 !important;
+    }
+    .figure-num small {
+      font-size: 0.4em !important;
+    }
+    .figure-caption {
+      font-family: var(--font-mono);
+      font-size: 11px !important;
+      letter-spacing: 0.1em;
+      color: var(--bone-mute);
+      text-transform: uppercase;
+      margin-top: 32px !important;
+      max-width: 280px;
+      line-height: 1.6;
+    }
+    /* Watermark number background per figure */
+    .figure::after {
+      content: attr(data-fig);
+      position: absolute;
+      bottom: 32px;
+      right: 24px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: rgba(187, 161, 79, 0.3);
+    }
+
+    /* ─── DIFFERENTIALS — Cada um é uma tela ─── */
+    #differentials {
+      padding: 0 !important;
+      min-height: auto !important;
+      scroll-snap-align: none;
+    }
+    #differentials .wrap {
+      padding: 0;
+      max-width: none;
+    }
+    .differentials-header {
+      scroll-snap-align: start;
+      min-height: 100dvh;
+      padding: 80px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .diff-list {
+      display: block !important;
+    }
+    .diff {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100dvh !important;
+      padding: 80px 24px 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      grid-template-columns: none !important;
+      gap: 0 !important;
+      position: relative;
+      overflow: hidden;
+      margin: 0 !important;
+      background: transparent !important;
+      border: none !important;
+    }
+    .diff-num {
+      font-family: var(--font-mono);
+      font-size: 10px !important;
+      letter-spacing: 0.22em !important;
+      color: var(--gold) !important;
+      margin-bottom: 24px !important;
+    }
+    /* Big watermark number per diff */
+    .diff .mobile-diff-watermark {
+      display: block !important;
+      position: absolute;
+      bottom: 60px;
+      right: -20px;
+      font-family: var(--font-display);
+      font-size: clamp(160px, 50vw, 280px);
+      font-weight: 300;
+      line-height: 0.85;
+      color: var(--gold);
+      opacity: 0.08;
+      font-style: italic;
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: -0.05em;
+    }
+    .diff-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 !important;
+    }
+
+    /* ─── CTA / CONTACT ─── */
+    .cta {
+      padding: 60px 24px !important;
+    }
+    .cta-inner,
+    .cta-inner .wrap {
+      padding: 0 !important;
+    }
+    .form-wrap {
+      padding: 32px 20px !important;
+    }
+
+    /* ─── SCROLL HINT INDICATOR ─── */
+    .mobile-scroll-hint {
+      display: flex !important;
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 4;
+      pointer-events: none;
+      animation: mobileScrollBounce 2.5s ease-in-out infinite;
+    }
+    .mobile-scroll-hint span {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .mobile-scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    @keyframes mobileScrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+    }
+
+    /* ─── NAV mais discreto em mobile ─── */
+    .nav {
+      padding: 16px 20px !important;
+    }
+  }
+
+  /* Desktop hide mobile-only */
+  @media (min-width: 769px) {
+    .mobile-screen-hud,
+    .mobile-micro,
+    .mobile-branch-metric,
+    .mobile-act-number,
+    .mobile-diff-watermark,
+    .mobile-scroll-hint {
+      display: none !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -2914,6 +3490,11 @@
      HERO
      ============================================ -->
 <section class="hero" id="hero">
+  <div class="mobile-scroll-hint"><span>Desça</span></div>
+  <div class="mobile-screen-hud">
+    <span>MIDAS · 01</span>
+    <span>HERO</span>
+  </div>
   <div class="hero-ambient"></div>
   <div class="hero-rays"></div>
   <canvas id="hero-canvas"></canvas>
@@ -3015,6 +3596,8 @@
 <section id="tese">
   <div class="wrap">
     <div class="tese-header reveal">
+      <div class="mobile-screen-hud"><span>TESE · 02</span><span>SEC 02/07</span></div>
+      <div class="mobile-scroll-hint"><span>Continue</span></div>
       <div>
         <span class="section-num"><span data-i18n="tese.label">A Tese</span></span>
       </div>
@@ -3026,8 +3609,10 @@
 
     <div class="tese-grid">
       <div class="tese-col reveal">
+        <div class="mobile-screen-hud"><span>HUMAN · 01</span><span>TESE 1/2</span></div>
         <div class="tese-col-label" data-i18n="tese.col1.label">Lado humano · 01</div>
         <h3 class="tese-col-title" data-i18n="tese.col1.title">A intuição<br>que a máquina não tem.</h3>
+        <p class="mobile-micro" data-i18n="tese.col1.micro">Curadoria que separa execução de transformação.</p>
         <div class="tese-col-body">
           <p data-i18n="tese.col1.p1">Por trás de cada projeto, profissionais validados no mercado — não freelancers anónimos. Estrategistas, criativos e operadores que conhecem o terreno e sabem quando uma decisão vai contra os dados, mas é a certa.</p>
           <p data-i18n="tese.col1.p2">É a curadoria que separa execução de transformação.</p>
@@ -3042,8 +3627,10 @@
       </div>
 
       <div class="tese-col reveal" style="margin-top: 80px;">
+        <div class="mobile-screen-hud"><span>MACHINE · 02</span><span>TESE 2/2</span></div>
         <div class="tese-col-label" data-i18n="tese.col2.label">Lado máquina · 02</div>
         <h3 class="tese-col-title" data-i18n="tese.col2.title">A precisão<br>que o humano não escala.</h3>
+        <p class="mobile-micro" data-i18n="tese.col2.micro">Boutique na profundidade. Plataforma na velocidade.</p>
         <div class="tese-col-body">
           <p data-i18n="tese.col2.p1">Inteligência artificial integrada em cada camada do processo — diagnóstico, criação, otimização, distribuição. Não como acessório, mas como infraestrutura. Decisões mais rápidas, testes mais densos, aprendizagem contínua.</p>
           <p data-i18n="tese.col2.p2">É o que permite operar com profundidade de boutique e velocidade de plataforma.</p>
@@ -3066,6 +3653,8 @@
 <section id="ecosystem">
   <div class="wrap">
     <div class="ecosystem-header reveal">
+      <div class="mobile-screen-hud"><span>ECO · 03</span><span>SEC 03/07</span></div>
+      <div class="mobile-scroll-hint"><span>Próximo</span></div>
       <div>
         <span class="section-num"><span data-i18n="ecosystem.label">Ecossistema</span></span>
       </div>
@@ -3077,6 +3666,7 @@
 
     <div class="ecosystem-list">
       <article class="branch reveal">
+        <div class="mobile-screen-hud"><span>PROJECTS · 01</span><span>ECO 1/3</span></div>
         <div class="branch-content">
           <div class="branch-tag" data-i18n="ecosystem.tag.01">Braço fundador · Ativo</div>
           <h3 class="branch-name">Midas <em>Projects</em></h3>
@@ -3127,9 +3717,20 @@
           <span class="branch-canvas-coord">MP.001</span>
           <canvas></canvas>
         </div>
+      
+        <div class="mobile-branch-metric">
+          <div class="mobile-branch-metric-num">150<small style="font-size:0.4em;">+</small></div>
+          <div class="mobile-branch-metric-label">Marcas transformadas desde 2022</div>
+        </div>
+      
+        <div class="mobile-branch-metric">
+          <div class="mobile-branch-metric-num">150<small style="font-size:0.4em;">+</small></div>
+          <div class="mobile-branch-metric-label">Marcas transformadas desde 2022</div>
+        </div>
       </article>
 
       <article class="branch reveal">
+        <div class="mobile-screen-hud"><span>PRODUCOES · 02</span><span>ECO 2/3</span></div>
         <div class="branch-content">
           <div class="branch-tag" data-i18n="ecosystem.tag.02">Segundo braço · Lançamento 2026</div>
           <h3 class="branch-name">Midas <em>Produções</em></h3>
@@ -3174,9 +3775,20 @@
           <span class="branch-canvas-coord">MP.002</span>
           <canvas></canvas>
         </div>
+      
+        <div class="mobile-branch-metric">
+          <div class="mobile-branch-metric-num">∞<small style="font-size:0.4em;"></small></div>
+          <div class="mobile-branch-metric-label">Eventos com IA generativa</div>
+        </div>
+      
+        <div class="mobile-branch-metric">
+          <div class="mobile-branch-metric-num">∞<small style="font-size:0.4em;"></small></div>
+          <div class="mobile-branch-metric-label">Eventos com IA generativa</div>
+        </div>
       </article>
 
       <article class="branch reveal">
+        <div class="mobile-screen-hud"><span>VISION · 03</span><span>ECO 3/3</span></div>
         <div class="branch-content">
           <div class="branch-tag" data-i18n="ecosystem.tag.03">Terceiro braço · Em desenho</div>
           <h3 class="branch-name" data-i18n="ecosystem.next.name">A próxima <em>vertical</em></h3>
@@ -3215,6 +3827,16 @@
           <span class="branch-canvas-coord">MP.003</span>
           <canvas></canvas>
         </div>
+      
+        <div class="mobile-branch-metric">
+          <div class="mobile-branch-metric-num">2025<small style="font-size:0.4em;"></small></div>
+          <div class="mobile-branch-metric-label">Laboratório de futuros</div>
+        </div>
+      
+        <div class="mobile-branch-metric">
+          <div class="mobile-branch-metric-num">2025<small style="font-size:0.4em;"></small></div>
+          <div class="mobile-branch-metric-label">Laboratório de futuros</div>
+        </div>
       </article>
     </div>
   </div>
@@ -3227,6 +3849,8 @@
   <div class="method-inner">
     <div class="wrap">
       <div class="method-header reveal">
+        <div class="mobile-screen-hud"><span>MÉTODO · 04</span><span>SEC 04/07</span></div>
+        <div class="mobile-scroll-hint"><span>Continue</span></div>
         <div>
           <span class="section-num"><span data-i18n="method.label">Método</span></span>
         </div>
@@ -3237,7 +3861,9 @@
       </div>
 
       <div class="method-acts">
-        <article class="method-act reveal">
+        <article class="method-act reveal" data-act="01">
+          <div class="mobile-screen-hud"><span>DIAGNOSE · 01</span><span>01/04</span></div>
+          <div class="mobile-act-number">01</div>
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s1.step">Fase 01 · Entrada</div>
             <h3 class="method-act-title" data-i18n="method.s1.title">Diagnóstico <em>estratégico</em></h3>
@@ -3258,7 +3884,9 @@
           </div>
         </article>
 
-        <article class="method-act reveal">
+        <article class="method-act reveal" data-act="02">
+          <div class="mobile-screen-hud"><span>POSITION · 02</span><span>02/04</span></div>
+          <div class="mobile-act-number">02</div>
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s2.step">Fase 02 · Direção</div>
             <h3 class="method-act-title" data-i18n="method.s2.title">Plano de <em>posicionamento</em></h3>
@@ -3279,7 +3907,9 @@
           </div>
         </article>
 
-        <article class="method-act reveal">
+        <article class="method-act reveal" data-act="03">
+          <div class="mobile-screen-hud"><span>EXECUTE · 03</span><span>03/04</span></div>
+          <div class="mobile-act-number">03</div>
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s3.step">Fase 03 · Operação</div>
             <h3 class="method-act-title" data-i18n="method.s3.title">Execução com <em>curadoria</em></h3>
@@ -3300,7 +3930,9 @@
           </div>
         </article>
 
-        <article class="method-act reveal">
+        <article class="method-act reveal" data-act="04">
+          <div class="mobile-screen-hud"><span>OPTIMIZE · 04</span><span>04/04</span></div>
+          <div class="mobile-act-number">04</div>
           <div class="method-act-content">
             <div class="method-act-step" data-i18n="method.s4.step">Fase 04 · Refinamento</div>
             <h3 class="method-act-title" data-i18n="method.s4.title">Otimização com <em>IA</em></h3>
@@ -3331,17 +3963,19 @@
 <section class="figures">
   <div class="wrap">
     <div class="figures-grid">
-      <div class="figure reveal">
+      <!-- mobile HUD placed inside first figure for snap consistency -->
+      <div class="figure reveal" data-fig="NÚM · 01">
+        <div class="mobile-screen-hud"><span>NÚMEROS · 05</span><span>SEC 05/07</span></div>
         <span class="figure-label" data-i18n="figures.f1.label">Marcas transformadas</span>
         <div class="figure-num"><span data-count="150">000</span><small>+</small></div>
         <p class="figure-caption" data-i18n="figures.f1.caption">Empresas em Portugal, Europa e Brasil que cruzaram pela mesa da Midas.</p>
       </div>
-      <div class="figure reveal">
+      <div class="figure reveal" data-fig="NÚM · 02">
         <span class="figure-label" data-i18n="figures.f2.label">Em mídia gerenciada</span>
         <div class="figure-num"><small>€</small><span data-count="5">0</span><small>M+</small></div>
         <p class="figure-caption" data-i18n="figures.f2.caption">Capital movimentado em campanhas de performance com retorno mensurável.</p>
       </div>
-      <div class="figure reveal">
+      <div class="figure reveal" data-fig="NÚM · 03">
         <span class="figure-label" data-i18n="figures.f3.label">Anos a refinar o método</span>
         <div class="figure-num"><span data-count="3">0</span><small>+</small></div>
         <p class="figure-caption" data-i18n="figures.f3.caption">Desde 2022, a construir o protocolo que une intuição humana e velocidade de máquina.</p>
@@ -3356,6 +3990,8 @@
 <section id="differentials">
   <div class="wrap">
     <div class="differentials-header reveal">
+      <div class="mobile-screen-hud"><span>DIF · 06</span><span>SEC 06/07</span></div>
+      <div class="mobile-scroll-hint"><span>Continue</span></div>
       <span class="section-num" style="margin-bottom: 32px; display:block;"><span data-i18n="diff.label">Diferenciais</span></span>
       <h2 class="differentials-heading">
         <span data-i18n="diff.heading1">O nível de elite,</span><br>
@@ -3365,6 +4001,8 @@
 
     <div class="diff-list">
       <article class="diff-item reveal">
+        <div class="mobile-screen-hud"><span>PROVA · 01</span><span>DIF 1/3</span></div>
+        <div class="mobile-diff-watermark">01</div>
         <div class="diff-mark"><span class="diff-mark-num">01</span></div>
         <div class="diff-content">
           <h3 class="diff-title">
@@ -3389,6 +4027,8 @@
       </article>
 
       <article class="diff-item reveal">
+        <div class="mobile-screen-hud"><span>PROVA · 02</span><span>DIF 2/3</span></div>
+        <div class="mobile-diff-watermark">02</div>
         <div class="diff-mark"><span class="diff-mark-num">02</span></div>
         <div class="diff-content">
           <h3 class="diff-title">
@@ -3413,6 +4053,8 @@
       </article>
 
       <article class="diff-item reveal">
+        <div class="mobile-screen-hud"><span>PROVA · 03</span><span>DIF 3/3</span></div>
+        <div class="mobile-diff-watermark">03</div>
         <div class="diff-mark"><span class="diff-mark-num">03</span></div>
         <div class="diff-content">
           <h3 class="diff-title">
@@ -3446,6 +4088,7 @@
   <div class="cta-inner">
     <div class="wrap">
       <div class="cta-header reveal">
+        <div class="mobile-screen-hud"><span>CONTACTO · 07</span><span>SEC 07/07</span></div>
         <span class="section-num"><span data-i18n="cta.label">Próximo passo</span></span>
         <h2 class="cta-heading">
           <span data-i18n="cta.heading1">Pronto para</span><br>
@@ -3622,11 +4265,13 @@ const TRANSLATIONS = {
     'tese.heading1': 'Onde agências competem por entrega,',
     'tese.heading2': 'competimos por transformação.',
     'tese.col1.label': 'Lado humano · 01',
+    'tese.col1.micro': 'Curadoria que separa execução de transformação.',
     'tese.col1.canvas.label': 'Refração · Lado humano',
     'tese.col1.title': 'A intuição<br>que a máquina não tem.',
     'tese.col1.p1': 'Por trás de cada projeto, profissionais validados no mercado — não freelancers anónimos. Estrategistas, criativos e operadores que conhecem o terreno e sabem quando uma decisão vai contra os dados, mas é a certa.',
     'tese.col1.p2': 'É a curadoria que separa execução de transformação.',
     'tese.col2.label': 'Lado máquina · 02',
+    'tese.col2.micro': 'Boutique na profundidade. Plataforma na velocidade.',
     'tese.col2.canvas.label': 'Malha · Lado máquina',
     'tese.col2.title': 'A precisão<br>que o humano não escala.',
     'tese.col2.p1': 'Inteligência artificial integrada em cada camada do processo — diagnóstico, criação, otimização, distribuição. Não como acessório, mas como infraestrutura. Decisões mais rápidas, testes mais densos, aprendizagem contínua.',
@@ -3812,11 +4457,13 @@ const TRANSLATIONS = {
     'tese.heading1': 'While agencies compete on delivery,',
     'tese.heading2': 'we compete on transformation.',
     'tese.col1.label': 'Human side · 01',
+    'tese.col1.micro': 'Curation that separates execution from transformation.',
     'tese.col1.canvas.label': 'Refraction · Human side',
     'tese.col1.title': 'The intuition<br>machines lack.',
     'tese.col1.p1': 'Behind every project, professionals validated by the market — not anonymous freelancers. Strategists, creatives and operators who know the terrain and recognise when a decision goes against the data but is still the right one.',
     'tese.col1.p2': 'Curation is what separates execution from transformation.',
     'tese.col2.label': 'Machine side · 02',
+    'tese.col2.micro': 'Boutique in depth. Platform in speed.',
     'tese.col2.canvas.label': 'Mesh · Machine side',
     'tese.col2.title': 'The precision<br>humans cannot scale.',
     'tese.col2.p1': 'Artificial intelligence woven into every layer of the process — diagnostics, creation, optimisation, distribution. Not as accessory, but as infrastructure. Faster decisions, denser experiments, continuous learning.',
@@ -4675,27 +5322,26 @@ function staticFallbackSVG(pattern) {
 function initMiniScenes() {
   if (typeof THREE === 'undefined') return;
 
-  // ON MOBILE: skip all secondary WebGL canvases.
-  // Mobile browsers limit WebGL contexts to ~8 — having 13 causes crashes.
-  // Inject decorative SVG fallback so wraps don't appear empty.
-  if (IS_MOBILE) {
-    const allWraps = document.querySelectorAll('.tese-canvas-wrap, .branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap');
-    allWraps.forEach((wrap, idx) => {
+  // ON MOBILE: Keep TESE WebGL active (2 canvases — human + machine).
+  // Other secondary canvases (Ecosystem, Method, Differentials) get SVG fallback.
+  // Mobile WebGL limit ~8 contexts. Hero (1) + Tese (2) = 3. Safe margin.
+  const FALLBACK_ONLY_ON_MOBILE = IS_MOBILE;
+  if (FALLBACK_ONLY_ON_MOBILE) {
+    const fallbackWraps = document.querySelectorAll('.branch-canvas-wrap, .method-canvas-wrap, .diff-canvas-wrap');
+    fallbackWraps.forEach((wrap, idx) => {
       wrap.classList.add('is-static-fallback');
-      // Hide the canvas
       const cvs = wrap.querySelector('canvas');
       if (cvs) cvs.style.display = 'none';
-      // Inject decorative SVG (rotates between 3 simple patterns)
       const decor = document.createElement('div');
       decor.className = 'static-fallback-decor';
       const pattern = idx % 3;
       decor.innerHTML = staticFallbackSVG(pattern);
       wrap.appendChild(decor);
     });
-    return;
+    // Fall through to scene init below — but with mobile-filtered specs
   }
 
-  const sceneSpecs = [
+  const allSceneSpecs = [
     { selector: '.tese-canvas-wrap[data-canvas="human"] canvas',     type: 'human' },
     { selector: '.tese-canvas-wrap[data-canvas="machine"] canvas',   type: 'machine' },
     { selector: '.branch-canvas-wrap[data-canvas="projects"] canvas',  type: 'projects' },
@@ -4709,6 +5355,11 @@ function initMiniScenes() {
     { selector: '.diff-canvas-wrap[data-canvas="grid"] canvas',      type: 'grid' },
     { selector: '.diff-canvas-wrap[data-canvas="orbit"] canvas',     type: 'orbit' }
   ];
+
+  // On mobile, keep only tese canvases (human + machine) — others have fallback SVG
+  const sceneSpecs = FALLBACK_ONLY_ON_MOBILE
+    ? allSceneSpecs.filter(s => s.type === 'human' || s.type === 'machine')
+    : allSceneSpecs;
 
   sceneSpecs.forEach(spec => {
     const canvas = document.querySelector(spec.selector);
