@@ -2818,9 +2818,9 @@
   @media (max-width: 768px) {
     /* Ativar mobile, esconder TUDO do desktop */
     #mobile-app { display: block !important; }
-    nav,
-    section,
-    footer,
+    body > nav,
+    body > section,
+    body > footer,
     .consent-banner,
     .consent-modal,
     body > .grain,
@@ -2828,6 +2828,10 @@
     body > #cursor-mini-glow {
       display: none !important;
     }
+    /* Garantir que tudo dentro do mobile-app SE MOSTRA */
+    #mobile-app section.m-screen { display: flex !important; }
+    #mobile-app .m-nav { display: flex !important; }
+    #mobile-app .m-footer { display: block !important; }
     /* Mas manter a intro overlay */
     .intro-overlay { display: flex !important; }
     /* Manter o consent ativo */
@@ -2907,6 +2911,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
+      opacity: 0.5; /* Sutil — não tapa o conteúdo */
     }
     .m-screen-bg canvas,
     .m-screen-bg svg {
@@ -2915,18 +2920,12 @@
       object-fit: cover;
       display: block;
     }
-    .m-screen-bg::after {
-      /* Dim overlay para garantir legibilidade do texto */
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(11,11,13,0.4) 0%, rgba(11,11,13,0.85) 70%, rgba(11,11,13,0.95) 100%);
-      pointer-events: none;
-    }
+    /* Overlay removido em mobile — estava a tapar o conteúdo quando WebGL não carregava */
 
     .m-screen-content {
       position: relative;
-      z-index: 2;
+      z-index: 5;
+      width: 100%;
     }
 
     /* HUD numérico topo (canto direito) */
@@ -7013,6 +7012,28 @@ if (document.readyState === 'loading') {
   const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
   if (!MOBILE_MQ.matches) return; // Skip everything em desktop
 
+  // ─── CRÍTICO: Fechar intro overlay rapidamente em mobile ─────
+  // O JS desktop tem uma sequência longa de intro que pode falhar
+  // (espera por elementos não-mobile). Forçamos fecho em 1.5s mobile.
+  function killIntroOverlay() {
+    const intro = document.getElementById('introOverlay');
+    if (intro) {
+      intro.style.transition = 'opacity 0.4s ease-out';
+      intro.style.opacity = '0';
+      setTimeout(() => {
+        intro.style.display = 'none';
+        intro.remove();
+      }, 450);
+    }
+    document.body.classList.remove('intro-active');
+    document.body.style.overflow = '';
+    document.body.style.height = '';
+  }
+  // Failsafe agressivo: depois de 1.5s, intro DEVE estar fechada
+  setTimeout(killIntroOverlay, 1500);
+  // E também depois de 4s mais como guard
+  setTimeout(killIntroOverlay, 4000);
+
   // ─── I18N MOBILE ─────────────────────────────────────────
   const M_T = {
     pt: {
@@ -7196,8 +7217,15 @@ if (document.readyState === 'loading') {
 
   // ─── WEBGL BACKGROUNDS ───────────────────────────────────
   // Hero diamond (renderiza só quando visible)
+  let mWebGLRetries = 0;
   function initMobileWebGL() {
     if (typeof THREE === 'undefined') {
+      mWebGLRetries++;
+      if (mWebGLRetries > 25) {
+        // 5 segundos passaram — Three.js não carregou (Safari Privacy?)
+        console.warn('[mobile] Three.js não disponível, skip WebGL');
+        return;
+      }
       setTimeout(initMobileWebGL, 200);
       return;
     }
